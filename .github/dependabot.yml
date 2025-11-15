@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/core"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/examples"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/junit"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/spring"
+    schedule:
+      interval: "weekly"
