@@ -28,13 +28,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>scenario-weaver-spring</artifactId>
-    <version>${project.parent.version}</version>
     <dependencies>
         <dependency>
             <groupId>be.moesmedia</groupId>
             <artifactId>scenario-weaver-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+                </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
