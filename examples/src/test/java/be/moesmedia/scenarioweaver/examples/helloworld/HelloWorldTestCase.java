@@ -17,11 +17,10 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
+import java.util.List;
 
 public class HelloWorldTestCase implements TestCase<String, TestCaseProperties, String, Void> {
     @Override

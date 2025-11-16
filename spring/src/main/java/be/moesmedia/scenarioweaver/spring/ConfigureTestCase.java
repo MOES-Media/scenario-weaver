@@ -22,15 +22,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConfigureTestCase {
     String stubsProvider();
+
     String propertiesProvider();
+
     String payloadProvider();
+
     String actionProvider();
+
     String description() default "";
+
     String group() default "";
+
     String name() default "";
 }

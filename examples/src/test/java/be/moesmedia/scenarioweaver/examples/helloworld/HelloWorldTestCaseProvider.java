@@ -20,7 +20,6 @@ package be.moesmedia.scenarioweaver.examples.helloworld;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCaseProperties;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestCaseProvider;
-
 import java.util.Optional;
 
 public class HelloWorldTestCaseProvider implements TestCaseProvider {

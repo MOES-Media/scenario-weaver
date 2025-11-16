@@ -18,7 +18,6 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
 
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
-
 import java.util.Optional;
 
 public interface TestCaseProvider {

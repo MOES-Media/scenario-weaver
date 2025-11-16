@@ -17,15 +17,16 @@
  */
 package be.moesmedia.scenarioweaver.spring;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class ConfigurableTestCaseScanner {
-    public static Set<Class<?>> getAnnotatedClasses(String basePackage) {
+    private ConfigurableTestCaseScanner() {}
+
+    public static Set<Class<?>> getAnnotatedClasses(final String basePackage) {
         final ClassPathScanningCandidateComponentProvider scanner =
                 new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(ConfigureTestCase.class));

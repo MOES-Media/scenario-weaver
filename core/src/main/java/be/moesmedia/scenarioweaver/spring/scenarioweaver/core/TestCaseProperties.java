@@ -24,7 +24,8 @@ public interface TestCaseProperties {
     default <TPropertiesType extends TestCaseProperties> TPropertiesType merge(final TPropertiesType newProperties) {
         try {
             final Class<?> clazz = this.getClass();
-            final TPropertiesType mergedProperties = (TPropertiesType) clazz.getDeclaredConstructor().newInstance();
+            final TPropertiesType mergedProperties =
+                    (TPropertiesType) clazz.getDeclaredConstructor().newInstance();
 
             Arrays.stream(clazz.getDeclaredFields()).forEach(field -> {
                 try {
@@ -46,5 +47,4 @@ public interface TestCaseProperties {
             throw new RuntimeException("Failed to merge properties", e);
         }
     }
-
 }

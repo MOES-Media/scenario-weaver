@@ -24,17 +24,19 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-public class SpringTestCaseWeaverExtension implements ParameterResolver {
+public final class SpringTestCaseWeaverExtension implements ParameterResolver {
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return parameterContext.isAnnotated(InjectTestCase.class)
-                && TestCase.class.isAssignableFrom(parameterContext.getParameter().getType());
+                && TestCase.class.isAssignableFrom(
+                        parameterContext.getParameter().getType());
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-        InjectTestCase injectTestCase = parameterContext.findAnnotation(InjectTestCase.class).orElse(null);
+        InjectTestCase injectTestCase =
+                parameterContext.findAnnotation(InjectTestCase.class).orElse(null);
         String testCaseName = injectTestCase.value();
 
         ApplicationContext ctx = SpringExtension.getApplicationContext(extensionContext);

@@ -17,56 +17,40 @@
  */
 package be.moesmedia.scenarioweaver.spring;
 
-import org.springframework.beans.BeansException;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-import java.util.Map;
-
-public class TestCaseWeavingRegistrar implements ImportBeanDefinitionRegistrar, ApplicationContextAware {
-    private ApplicationContext applicationContext;
+public final class TestCaseWeavingRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
-    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @Override
-    public void registerBeanDefinitions(final AnnotationMetadata importingClassMetadata, final BeanDefinitionRegistry registry) {
-        final Map<String, Object> attributes = importingClassMetadata.getAnnotationAttributes(EnableTestCaseWeaving.class.getName());
+    public void registerBeanDefinitions(
+            final AnnotationMetadata importingClassMetadata, final BeanDefinitionRegistry registry) {
+        final Map<String, Object> attributes = Optional.ofNullable(
+                        importingClassMetadata.getAnnotationAttributes(EnableTestCaseWeaving.class.getName()))
+                .orElseThrow(() ->
+                        new IllegalArgumentException("@EnableTestCaseWeaving required attribute basePackages not set"));
         final String[] basePackages = (String[]) attributes.get("basePackages");
 
-        final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(ConfigureTestCase.class));
-
         for (final String basePackage : basePackages) {
-            for (final var beanDef : scanner.findCandidateComponents(basePackage)) {
-                try {
-                    final Class<?> clazz = Class.forName(beanDef.getBeanClassName());
-                    final ConfigureTestCase config = clazz.getAnnotation(ConfigureTestCase.class);
+            for (final var clazz : ConfigurableTestCaseScanner.getAnnotatedClasses(basePackage)) {
+                final ConfigureTestCase config = clazz.getAnnotation(ConfigureTestCase.class);
 
-                    final GenericBeanDefinition def = new GenericBeanDefinition();
-                    def.setBeanClass(TestCaseFactoryBean.class);
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(0, clazz);
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(1, config.stubsProvider());
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(2, config.propertiesProvider());
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(3, config.payloadProvider());
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(4, config.actionProvider());
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(5, config.description());
-                    def.getConstructorArgumentValues().addIndexedArgumentValue(6, config.group());
+                final GenericBeanDefinition def = new GenericBeanDefinition();
+                def.setBeanClass(TestCaseFactoryBean.class);
+                def.getConstructorArgumentValues().addIndexedArgumentValue(0, clazz);
+                def.getConstructorArgumentValues().addIndexedArgumentValue(1, config.stubsProvider());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(2, config.propertiesProvider());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(3, config.payloadProvider());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(4, config.actionProvider());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(5, config.description());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(6, config.group());
 
-                    final String beanName = !config.name().isEmpty() ? config.name() : clazz.getSimpleName();
-                    registry.registerBeanDefinition(beanName, def);
-
-                } catch (final ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
+                final String beanName = !config.name().isEmpty() ? config.name() : clazz.getSimpleName();
+                registry.registerBeanDefinition(beanName, def);
             }
         }
     }

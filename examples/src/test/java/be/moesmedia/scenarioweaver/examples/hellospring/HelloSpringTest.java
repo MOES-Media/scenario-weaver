@@ -30,7 +30,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest(classes = {HelloSpringApplication.class, HelloSpringTest.MyTestConfig.class},
+@SpringBootTest(
+        classes = {HelloSpringApplication.class, HelloSpringTest.MyTestConfig.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringTestCaseWeaverExtension.class)
 class HelloSpringTest {

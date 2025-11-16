@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloSpringController {
+public final class HelloSpringController {
     @GetMapping("/hello-spring")
     public ResponseEntity<String> helloSpring() {
         return ResponseEntity.ok("Hello Spring!");

@@ -20,21 +20,29 @@ package be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCaseProperties;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestExecutor;
-
 import java.util.Objects;
 
-public class DefaultTestExecutor implements TestExecutor {
+public final class DefaultTestExecutor implements TestExecutor {
 
     @Override
-    public <TPayload, TProps extends TestCaseProperties, TResult, TContext> void execute(TestCase<TPayload, TProps, TResult, TContext> testCase) {
+    public <TPayload, TProps extends TestCaseProperties, TResult, TContext> void execute(
+            TestCase<TPayload, TProps, TResult, TContext> testCase) {
         if (Objects.isNull(testCase)) {
             throw new IllegalArgumentException("TestCase is null, we cannot execute what is not there...");
         }
         final TPayload payload = testCase.payloadProvider().create(null);
-        final TProps initialProps = Objects.isNull(testCase.propertiesProvider().create(null)) ? null : testCase.propertiesProvider().create(null);
+        final TProps initialProps = Objects.isNull(testCase.propertiesProvider().create(null))
+                ? null
+                : testCase.propertiesProvider().create(null);
 
-        final TContext ctx = Objects.isNull(testCase.stubs()) ? null : testCase.stubs().create(payload, initialProps);
-        final TProps propsWithCtx = Objects.isNull(initialProps) ? testCase.propertiesProvider().create(ctx) : initialProps.merge(Objects.isNull(testCase.propertiesProvider()) ? null : testCase.propertiesProvider().create(ctx));
+        final TContext ctx =
+                Objects.isNull(testCase.stubs()) ? null : testCase.stubs().create(payload, initialProps);
+        final TProps propsWithCtx = Objects.isNull(initialProps)
+                ? testCase.propertiesProvider().create(ctx)
+                : initialProps.merge(
+                        Objects.isNull(testCase.propertiesProvider())
+                                ? null
+                                : testCase.propertiesProvider().create(ctx));
 
         final TResult result = testCase.actionProvider().execute(payload, propsWithCtx);
 

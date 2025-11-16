@@ -18,25 +18,28 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
 
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
+import java.lang.reflect.Field;
+import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-import java.lang.reflect.Field;
-import java.util.Optional;
-
-public class TestCaseWeaverExtension implements ParameterResolver {
+public final class TestCaseWeaverExtension implements ParameterResolver {
 
     @Override
-    public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException {
+    public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
+            throws ParameterResolutionException {
         return parameterContext.isAnnotated(InjectTestCase.class)
-                && TestCase.class.isAssignableFrom(parameterContext.getParameter().getType());
+                && TestCase.class.isAssignableFrom(
+                        parameterContext.getParameter().getType());
     }
 
     @Override
-    public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException {
-        final InjectTestCase injectTestCaseAnnotation = parameterContext.findAnnotation(InjectTestCase.class).orElse(null);
+    public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
+            throws ParameterResolutionException {
+        final InjectTestCase injectTestCaseAnnotation =
+                parameterContext.findAnnotation(InjectTestCase.class).orElse(null);
         final String testCaseName = injectTestCaseAnnotation != null ? injectTestCaseAnnotation.value() : "";
 
         final Object testInstance = extensionContext.getRequiredTestInstance();
@@ -54,7 +57,8 @@ public class TestCaseWeaverExtension implements ParameterResolver {
                         }
                     }
                 } catch (IllegalAccessException e) {
-                    throw new ParameterResolutionException("Could not access @TestCaseSource field: " + field.getName(), e);
+                    throw new ParameterResolutionException(
+                            "Could not access @TestCaseSource field: " + field.getName(), e);
                 }
             }
         }

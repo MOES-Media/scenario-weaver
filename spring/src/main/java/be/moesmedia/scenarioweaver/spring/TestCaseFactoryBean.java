@@ -17,17 +17,20 @@
  */
 package be.moesmedia.scenarioweaver.spring;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, ?>>, ApplicationContextAware {
+public final class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, ?>>, ApplicationContextAware {
     private final Class<?> configClass;
     private final String stubsProviderName;
     private final String propertiesProviderName;
@@ -38,13 +41,14 @@ public class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, ?>>, A
 
     private ApplicationContext ctx;
 
-    public TestCaseFactoryBean(Class<?> configClass,
-                               String stubsProviderName,
-                               String propertiesProviderName,
-                               String payloadProviderName,
-                               String actionProviderName,
-                               String description,
-                               String group) {
+    public TestCaseFactoryBean(
+            Class<?> configClass,
+            String stubsProviderName,
+            String propertiesProviderName,
+            String payloadProviderName,
+            String actionProviderName,
+            String description,
+            String group) {
         this.configClass = configClass;
         this.stubsProviderName = stubsProviderName;
         this.propertiesProviderName = propertiesProviderName;

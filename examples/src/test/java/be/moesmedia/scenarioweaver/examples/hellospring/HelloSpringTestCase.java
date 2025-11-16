@@ -17,15 +17,14 @@
  */
 package be.moesmedia.scenarioweaver.examples.hellospring;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import be.moesmedia.scenarioweaver.spring.Assertions;
 import be.moesmedia.scenarioweaver.spring.ConfigureTestCase;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.AssertionsProvider;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ConfigureTestCase(
         name = "helloSpring",
@@ -38,10 +37,9 @@ public class HelloSpringTestCase {
 
     @Assertions
     public List<AssertionsProvider<ResponseEntity<String>, Void, Void>> assertions() {
-        return List.of(
-                (actual, expected, unused) -> {
-                    assertEquals(HttpStatus.OK, actual.getStatusCode());
-                    assertEquals("Hello Spring!", actual.getBody());
-                });
+        return List.of((actual, expected, unused) -> {
+            assertEquals(HttpStatus.OK, actual.getStatusCode());
+            assertEquals("Hello Spring!", actual.getBody());
+        });
     }
 }
