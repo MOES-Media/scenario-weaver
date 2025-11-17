@@ -26,7 +26,7 @@ jobs:
         run: mvn checkstyle:check
 
       - name: Build and Test
-        run: mvn -B clean verify
+        run: mvn -B clean install
 
       - name: Run SpotBugs
         run: mvn spotbugs:check
