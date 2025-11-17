@@ -8,6 +8,6 @@ on:
 
 jobs:
   build-test-and-lint:
-    uses: ./.github/jobs/build-test-and-lint.yml
+    uses: ./.github/workflows/build-test-and-lint.yml
     with:
       run-tests: true
