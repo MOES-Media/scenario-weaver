@@ -24,4 +24,7 @@ jobs:
     with:
       fail-fast: false
   dependency-submission:
+    permissions:
+      contents: write
+      id-token: write
     uses: ./.github/workflows/dependency-submission.yml
