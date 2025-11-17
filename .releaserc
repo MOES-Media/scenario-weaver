@@ -31,8 +31,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "mvn versions:set -DnewVersion=${nextRelease.version} -DgenerateBackupPoms=false"
-      }
+        "prepareCmd": "mvn versions:set -DnewVersion=$(echo ${nextRelease.version} | sed -E 's/-SNAPSHOT\\.[0-9]+/-SNAPSHOT/') -DgenerateBackupPoms=false"      }
     ],
     [
         "@semantic-release/git",
