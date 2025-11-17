@@ -171,6 +171,13 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/MOES-Media/scenario-weaver</url>
+        </snapshotRepository>
+    </distributionManagement>
     <modules>
         <module>core</module>
         <module>junit</module>
