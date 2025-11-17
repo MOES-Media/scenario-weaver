@@ -24,18 +24,12 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Download git-chglog
-        run: |
-          curl -sSL https://github.com/git-chglog/git-chglog/releases/download/v0.15.1/git-chglog_0.15.1_linux_amd64.tar.gz | tar xz
-
-      - name: Init git-chglog config if missing
-        run: |
-          if [ ! -f .chglog/config.yml ]; then
-            ./git-chglog init
-          fi
-
-      - name: Generate Changelog
-        run: ./git-chglog --output CHANGELOG.md
+      - name: Generate Conventional Changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: CHANGELOG.md
+          skip-version-file: true
 
       - name: Publish SNAPSHOT to GitHub Packages
         run: mvn -B -s ${{ github.workspace }}/settings.xml clean deploy -DskipTests
@@ -50,5 +44,6 @@ jobs:
           name: Development Snapshot ${{ github.sha }}
           draft: false
           prerelease: true
+          body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
