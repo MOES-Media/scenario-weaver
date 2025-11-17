@@ -15,3 +15,11 @@ jobs:
       contents: read
     with:
       run-tests: true
+  analyze-code:
+    uses: ./.github/workflows/analyze-code.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    with:
+      fail-fast: false
