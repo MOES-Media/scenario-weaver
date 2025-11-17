@@ -24,6 +24,9 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
 
+      - name: Debug settings.xml
+        run: cat $GITHUB_WORKSPACE/settings.xml
+
       - name: Publish SNAPSHOT to GitHub Packages
         run: mvn -B clean deploy -DskipTests
         env:
