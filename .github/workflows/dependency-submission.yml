@@ -19,6 +19,5 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'maven'
       - name: Submit dependency graph
         uses: advanced-security/maven-dependency-submission-action@v4
