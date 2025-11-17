@@ -16,7 +16,7 @@ jobs:
       contents: read
       security-events: write
     strategy:
-      fail-fast: ${inputs.fail-fast}
+      fail-fast: ${{ inputs.fail-fast }}
       matrix:
         language: [ 'java' ]
     steps:
