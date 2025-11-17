@@ -19,6 +19,9 @@ jobs:
       contents: read
       security-events: write
   dependency-submission:
+    permissions:
+      contents: write
+      id-token: write
     uses: ./.github/workflows/dependency-submission.yml
   publish-snapshot:
     needs:
