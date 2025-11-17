@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-spring - Scenario based testing
+ * scenario-weaver-junit - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring;
+package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -24,6 +24,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InjectTestCase {
+public @interface InjectTestScenario {
     String value() default "";
 }

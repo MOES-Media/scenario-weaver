@@ -21,7 +21,7 @@ import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.ActionProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, ?>>, ApplicationContextAware {
+public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?, ?, ?, ?>>, ApplicationContextAware {
     private final Class<?> configClass;
     private final String stubsProviderName;
     private final String propertiesProviderName;
@@ -41,7 +41,7 @@ public final class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, 
 
     private ApplicationContext ctx;
 
-    public TestCaseFactoryBean(
+    public TestScenarioFactoryBean(
             Class<?> configClass,
             String stubsProviderName,
             String propertiesProviderName,
@@ -64,7 +64,7 @@ public final class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, 
     }
 
     @Override
-    public TestCase<?, ?, ?, ?> getObject() {
+    public TestScenario<?, ?, ?, ?> getObject() {
         try {
             final Object stubsProvider = ctx.getBean(stubsProviderName);
             final Object propertiesProvider = ctx.getBean(propertiesProviderName);
@@ -82,7 +82,7 @@ public final class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, 
             }
 
             List<?> finalAssertions = assertions;
-            return new TestCase<>() {
+            return new TestScenario<>() {
                 @Override
                 public String description() {
                     return description;
@@ -120,6 +120,6 @@ public final class TestCaseFactoryBean implements FactoryBean<TestCase<?, ?, ?, 
 
     @Override
     public Class<?> getObjectType() {
-        return TestCase.class;
+        return TestScenario.class;
     }
 }

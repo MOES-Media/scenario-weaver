@@ -23,13 +23,13 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-public class ConfigurableTestCaseScanner {
-    private ConfigurableTestCaseScanner() {}
+public class ConfigurableTestScenarioScanner {
+    private ConfigurableTestScenarioScanner() {}
 
     public static Set<Class<?>> getAnnotatedClasses(final String basePackage) {
         final ClassPathScanningCandidateComponentProvider scanner =
                 new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(ConfigureTestCase.class));
+        scanner.addIncludeFilter(new AnnotationTypeFilter(ConfigureTestScenario.class));
 
         final Set<Class<?>> classes = new HashSet<>();
         for (final BeanDefinition beanDef : scanner.findCandidateComponents(basePackage)) {

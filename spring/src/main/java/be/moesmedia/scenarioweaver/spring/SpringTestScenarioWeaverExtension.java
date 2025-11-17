@@ -17,30 +17,30 @@
  */
 package be.moesmedia.scenarioweaver.spring;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-public final class SpringTestCaseWeaverExtension implements ParameterResolver {
+public final class SpringTestScenarioWeaverExtension implements ParameterResolver {
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-        return parameterContext.isAnnotated(InjectTestCase.class)
-                && TestCase.class.isAssignableFrom(
+        return parameterContext.isAnnotated(InjectTestScenario.class)
+                && TestScenario.class.isAssignableFrom(
                         parameterContext.getParameter().getType());
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-        InjectTestCase injectTestCase =
-                parameterContext.findAnnotation(InjectTestCase.class).orElse(null);
-        String testCaseName = injectTestCase.value();
+        InjectTestScenario injectTestScenario =
+                parameterContext.findAnnotation(InjectTestScenario.class).orElse(null);
+        String testCaseName = injectTestScenario.value();
 
         ApplicationContext ctx = SpringExtension.getApplicationContext(extensionContext);
 
-        return ctx.getBean(testCaseName, TestCase.class);
+        return ctx.getBean(testCaseName, TestScenario.class);
     }
 }

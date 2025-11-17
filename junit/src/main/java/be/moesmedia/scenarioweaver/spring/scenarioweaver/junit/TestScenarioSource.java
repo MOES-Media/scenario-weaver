@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-core - Scenario based testing
+ * scenario-weaver-junit - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,20 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
 
-import java.util.List;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface TestCase<TPayload, TProps extends TestCaseProperties, TResult, TContext> {
-    String description();
-
-    PayloadProvider<TContext, TPayload> payloadProvider();
-
-    PropertiesProvider<TProps, TContext> propertiesProvider();
-
-    StubsProvider<TPayload, TProps, TContext> stubs();
-
-    List<AssertionsProvider<TResult, TPayload, TContext>> assertions();
-
-    ActionProvider<TPayload, TProps, TResult> actionProvider();
-}
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface TestScenarioSource {}

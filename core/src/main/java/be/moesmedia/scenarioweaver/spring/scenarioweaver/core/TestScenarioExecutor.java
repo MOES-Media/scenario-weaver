@@ -18,7 +18,7 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 @FunctionalInterface
-public interface TestExecutor {
-    <TPayload, TProps extends TestCaseProperties, TResult, TContext> void execute(
-            TestCase<TPayload, TProps, TResult, TContext> testCase);
+public interface TestScenarioExecutor {
+    <TPayload, TProps extends TestScenarioProperties, TResult, TContext> void execute(
+            TestScenario<TPayload, TProps, TResult, TContext> testScenario);
 }

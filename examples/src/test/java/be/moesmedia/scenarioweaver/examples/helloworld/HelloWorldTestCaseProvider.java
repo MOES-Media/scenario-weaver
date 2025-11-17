@@ -17,16 +17,16 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCaseProperties;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestCaseProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioProvider;
 import java.util.Optional;
 
-public class HelloWorldTestCaseProvider implements TestCaseProvider {
+public class HelloWorldTestCaseProvider implements TestScenarioProvider {
     @Override
-    public Optional<TestCase<String, TestCaseProperties, String, Void>> getTestCase(String name) {
+    public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestCase(String name) {
         if ("hello-world".equals(name)) {
-            return Optional.of(new HelloWorldTestCase());
+            return Optional.of(new HelloWorldTestScenario());
         }
         return Optional.empty();
     }

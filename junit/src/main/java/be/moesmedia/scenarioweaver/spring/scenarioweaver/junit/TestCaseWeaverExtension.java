@@ -17,7 +17,7 @@
  */
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -30,28 +30,28 @@ public final class TestCaseWeaverExtension implements ParameterResolver {
     @Override
     public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
             throws ParameterResolutionException {
-        return parameterContext.isAnnotated(InjectTestCase.class)
-                && TestCase.class.isAssignableFrom(
+        return parameterContext.isAnnotated(InjectTestScenario.class)
+                && TestScenario.class.isAssignableFrom(
                         parameterContext.getParameter().getType());
     }
 
     @Override
     public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
             throws ParameterResolutionException {
-        final InjectTestCase injectTestCaseAnnotation =
-                parameterContext.findAnnotation(InjectTestCase.class).orElse(null);
-        final String testCaseName = injectTestCaseAnnotation != null ? injectTestCaseAnnotation.value() : "";
+        final InjectTestScenario injectTestScenarioAnnotation =
+                parameterContext.findAnnotation(InjectTestScenario.class).orElse(null);
+        final String testCaseName = injectTestScenarioAnnotation != null ? injectTestScenarioAnnotation.value() : "";
 
         final Object testInstance = extensionContext.getRequiredTestInstance();
 
         for (final Field field : testInstance.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(TestCaseSource.class)) {
+            if (field.isAnnotationPresent(TestScenarioSource.class)) {
                 field.setAccessible(true);
                 try {
                     final Object provider = field.get(testInstance);
-                    if (provider instanceof TestCaseProvider) {
-                        Optional<? extends TestCase<?, ?, ?, ?>> testCase =
-                                ((TestCaseProvider) provider).getTestCase(testCaseName);
+                    if (provider instanceof TestScenarioProvider) {
+                        Optional<? extends TestScenario<?, ?, ?, ?>> testCase =
+                                ((TestScenarioProvider) provider).getTestCase(testCaseName);
                         if (testCase.isPresent()) {
                             return testCase.get();
                         }

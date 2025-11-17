@@ -17,11 +17,11 @@
  */
 package be.moesmedia.scenarioweaver.examples.hellospring;
 
-import be.moesmedia.scenarioweaver.spring.EnableTestCaseWeaving;
-import be.moesmedia.scenarioweaver.spring.InjectTestCase;
-import be.moesmedia.scenarioweaver.spring.SpringTestCaseWeaverExtension;
+import be.moesmedia.scenarioweaver.spring.EnableTestScenarioWeaving;
+import be.moesmedia.scenarioweaver.spring.InjectTestScenario;
+import be.moesmedia.scenarioweaver.spring.SpringTestScenarioWeaverExtension;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestExecutor;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,26 +33,27 @@ import org.springframework.http.ResponseEntity;
 @SpringBootTest(
         classes = {HelloSpringApplication.class, HelloSpringTest.MyTestConfig.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(SpringTestCaseWeaverExtension.class)
+@ExtendWith(SpringTestScenarioWeaverExtension.class)
 class HelloSpringTest {
 
-    private final TestExecutor executor = new DefaultTestExecutor();
+    private final TestScenarioExecutor executor = new DefaultTestScenarioExecutor();
 
     @Test
-    void test_hello_spring(@InjectTestCase("helloSpring") TestCase<String, TestCaseProperties, String, Void> testCase) {
-        executor.execute(testCase);
+    void test_hello_spring(@InjectTestScenario("helloSpring")
+                           TestScenario<String, TestScenarioProperties, String, Void> testScenario) {
+        executor.execute(testScenario);
     }
 
     @TestConfiguration
-    @EnableTestCaseWeaving(basePackages = "be.moesmedia.scenarioweaver.examples.hellospring")
+    @EnableTestScenarioWeaving(basePackages = "be.moesmedia.scenarioweaver.examples.hellospring")
     static class MyTestConfig {
         @Bean
-        public StubsProvider<Void, TestCaseProperties, Void> myStubsProvider() {
+        public StubsProvider<Void, TestScenarioProperties, Void> myStubsProvider() {
             return (payload, properties) -> null;
         }
 
         @Bean
-        public PropertiesProvider<TestCaseProperties, Void> myPropertiesProvider() {
+        public PropertiesProvider<TestScenarioProperties, Void> myPropertiesProvider() {
             return props -> null;
         }
 

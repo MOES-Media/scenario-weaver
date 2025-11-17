@@ -20,13 +20,13 @@ package be.moesmedia.scenarioweaver.examples.hellospring;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import be.moesmedia.scenarioweaver.spring.Assertions;
-import be.moesmedia.scenarioweaver.spring.ConfigureTestCase;
+import be.moesmedia.scenarioweaver.spring.ConfigureTestScenario;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.AssertionsProvider;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@ConfigureTestCase(
+@ConfigureTestScenario(
         name = "helloSpring",
         stubsProvider = "myStubsProvider",
         propertiesProvider = "myPropertiesProvider",

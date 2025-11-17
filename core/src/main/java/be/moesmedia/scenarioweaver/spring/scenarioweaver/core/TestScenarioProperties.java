@@ -19,9 +19,9 @@ package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 import java.util.Arrays;
 
-public interface TestCaseProperties {
+public interface TestScenarioProperties {
     @SuppressWarnings("unchecked")
-    default <TPropertiesType extends TestCaseProperties> TPropertiesType merge(final TPropertiesType newProperties) {
+    default <TPropertiesType extends TestScenarioProperties> TPropertiesType merge(final TPropertiesType newProperties) {
         try {
             final Class<?> clazz = this.getClass();
             final TPropertiesType mergedProperties =

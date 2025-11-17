@@ -18,6 +18,6 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 @FunctionalInterface
-public interface PropertiesProvider<TPropertiesType extends TestCaseProperties, TContext> {
+public interface PropertiesProvider<TPropertiesType extends TestScenarioProperties, TContext> {
     TPropertiesType create(TContext context);
 }

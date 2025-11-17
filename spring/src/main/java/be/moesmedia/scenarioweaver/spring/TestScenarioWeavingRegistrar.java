@@ -24,23 +24,23 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
-public final class TestCaseWeavingRegistrar implements ImportBeanDefinitionRegistrar {
+public final class TestScenarioWeavingRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(
             final AnnotationMetadata importingClassMetadata, final BeanDefinitionRegistry registry) {
         final Map<String, Object> attributes = Optional.ofNullable(
-                        importingClassMetadata.getAnnotationAttributes(EnableTestCaseWeaving.class.getName()))
+                        importingClassMetadata.getAnnotationAttributes(EnableTestScenarioWeaving.class.getName()))
                 .orElseThrow(() ->
                         new IllegalArgumentException("@EnableTestCaseWeaving required attribute basePackages not set"));
         final String[] basePackages = (String[]) attributes.get("basePackages");
 
         for (final String basePackage : basePackages) {
-            for (final var clazz : ConfigurableTestCaseScanner.getAnnotatedClasses(basePackage)) {
-                final ConfigureTestCase config = clazz.getAnnotation(ConfigureTestCase.class);
+            for (final var clazz : ConfigurableTestScenarioScanner.getAnnotatedClasses(basePackage)) {
+                final ConfigureTestScenario config = clazz.getAnnotation(ConfigureTestScenario.class);
 
                 final GenericBeanDefinition def = new GenericBeanDefinition();
-                def.setBeanClass(TestCaseFactoryBean.class);
+                def.setBeanClass(TestScenarioFactoryBean.class);
                 def.getConstructorArgumentValues().addIndexedArgumentValue(0, clazz);
                 def.getConstructorArgumentValues().addIndexedArgumentValue(1, config.stubsProvider());
                 def.getConstructorArgumentValues().addIndexedArgumentValue(2, config.propertiesProvider());
