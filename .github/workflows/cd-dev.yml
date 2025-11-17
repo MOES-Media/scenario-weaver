@@ -1,4 +1,4 @@
-name: Publish SNAPSHOT to GitHub Packages
+name: Build and Publish SNAPSHOT to GitHub Packages
 
 on:
   push:
@@ -49,6 +49,7 @@ jobs:
 
       - name: Semantic Release (changelog & pre-release)
         uses: cycjimmy/semantic-release-action@v4
+        id: semantic_release
         with:
           extra_plugins: |
             @semantic-release/changelog
@@ -62,6 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish SNAPSHOT to GitHub Packages
+        if: steps.semantic_release.outputs.new_release_published == 'true'
         run: mvn -B -s ${{ github.workspace }}/settings.xml clean deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
