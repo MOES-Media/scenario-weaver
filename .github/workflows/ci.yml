@@ -25,11 +25,11 @@ jobs:
       - name: Run Checkstyle
         run: mvn checkstyle:check
 
-      - name: Run SpotBugs
-        run: mvn spotbugs:check
-
       - name: Build and Test
         run: mvn -B clean verify
+
+      - name: Run SpotBugs
+        run: mvn spotbugs:check
 
       - name: Upload test results
         if: always()
