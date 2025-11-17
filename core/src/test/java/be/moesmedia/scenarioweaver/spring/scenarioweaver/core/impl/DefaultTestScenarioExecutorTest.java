@@ -110,6 +110,77 @@ class DefaultTestScenarioExecutorTest {
         verify(assertion).execute(result, payload, null);
     }
 
+    @Test
+    @SuppressWarnings("unchecked")
+    void shouldHandleNullPropertiesProvider() {
+        TestScenario<String, TestProps, Integer, String> scenario = mock(TestScenario.class);
+        PayloadProvider<String, String> payloadProvider = mock(PayloadProvider.class);
+        ActionProvider<String, TestProps, Integer> actionProvider = mock(ActionProvider.class);
+        AssertionsProvider<Integer, String, String> assertion = mock(AssertionsProvider.class);
+        StubsProvider<String, TestProps, String> stubsProvider = mock(StubsProvider.class);
+
+        String payload = "payload";
+        String ctx = "context";
+        Integer result = 42;
+
+        when(scenario.payloadProvider()).thenReturn(payloadProvider);
+        when(payloadProvider.create(null)).thenReturn(payload);
+
+        when(scenario.propertiesProvider()).thenReturn(null); // propertiesProvider is null
+
+        when(scenario.stubs()).thenReturn(stubsProvider);
+        when(stubsProvider.create(payload, null)).thenReturn(ctx);
+
+        when(scenario.actionProvider()).thenReturn(actionProvider);
+        when(actionProvider.execute(payload, null)).thenReturn(result);
+
+        when(scenario.assertions()).thenReturn(List.of(assertion));
+
+        executor.execute(scenario);
+
+        verify(payloadProvider).create(null);
+        verify(stubsProvider).create(payload, null);
+        verify(actionProvider).execute(payload, null);
+        verify(assertion).execute(result, payload, ctx);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void shouldHandleNullInitialPropsAndNonNullStubsReturningNullCtx() {
+        final var scenario = mock(TestScenario.class);
+        final var payloadProvider = mock(PayloadProvider.class);
+        final var propertiesProvider = mock(PropertiesProvider.class);
+        final var actionProvider = mock(ActionProvider.class);
+        final var assertion = mock(AssertionsProvider.class);
+        final var stubs = mock(StubsProvider.class);
+
+        final var payload = "payload";
+        final var result = 42;
+
+        when(scenario.payloadProvider()).thenReturn(payloadProvider);
+        when(payloadProvider.create(null)).thenReturn(payload);
+
+        when(scenario.propertiesProvider()).thenReturn(propertiesProvider);
+        when(propertiesProvider.create(null)).thenReturn(null); // initialProps is null
+        when(propertiesProvider.create(null)).thenReturn(null);
+
+        when(scenario.stubs()).thenReturn(stubs);
+        when(stubs.create(payload, null)).thenReturn(null); // stubs returns null ctx
+
+        when(scenario.actionProvider()).thenReturn(actionProvider);
+        when(actionProvider.execute(payload, null)).thenReturn(result);
+
+        when(scenario.assertions()).thenReturn(List.of(assertion));
+
+        executor.execute(scenario);
+
+        verify(payloadProvider).create(null);
+        verify(propertiesProvider, times(2)).create(null);
+        verify(stubs).create(payload, null);
+        verify(actionProvider).execute(payload, null);
+        verify(assertion).execute(result, payload, null);
+    }
+
     record TestProps(String value) implements TestScenarioProperties {
 
         @Override

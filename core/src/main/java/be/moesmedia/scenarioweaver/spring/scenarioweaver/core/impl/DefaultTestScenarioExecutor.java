@@ -17,9 +17,15 @@
  */
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl;
 
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.AssertionsProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
+import java.util.List;
 import java.util.Objects;
 
 public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
@@ -30,23 +36,27 @@ public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
         if (Objects.isNull(testScenario)) {
             throw new IllegalArgumentException("TestScenario is null, we cannot execute what is not there...");
         }
-        final TPayload payload = testScenario.payloadProvider().create(null);
-        final TProps initialProps = Objects.isNull(testScenario.propertiesProvider())
-                ? null
-                : testScenario.propertiesProvider().create(null);
 
-        final TContext ctx = Objects.isNull(testScenario.stubs())
-                ? null
-                : testScenario.stubs().create(payload, initialProps);
-        final TProps propsWithCtx = Objects.isNull(initialProps)
-                ? testScenario.propertiesProvider().create(ctx)
-                : initialProps.merge(
-                        Objects.isNull(testScenario.propertiesProvider())
-                                ? null
-                                : testScenario.propertiesProvider().create(ctx));
+        final PayloadProvider<TContext, TPayload> payloadProvider = testScenario.payloadProvider();
+        final PropertiesProvider<TProps, TContext> propertiesProvider = testScenario.propertiesProvider();
+        final StubsProvider<TPayload, TProps, TContext> stubsProvider = testScenario.stubs();
+        final ActionProvider<TPayload, TProps, TResult> actionProvider = testScenario.actionProvider();
+        final List<AssertionsProvider<TResult, TPayload, TContext>> assertions = testScenario.assertions();
 
-        final TResult result = testScenario.actionProvider().execute(payload, propsWithCtx);
+        final TPayload payload = payloadProvider.create(null);
+        final TProps initialProps = Objects.nonNull(propertiesProvider) ? propertiesProvider.create(null) : null;
+        final TContext ctx = Objects.nonNull(stubsProvider) ? stubsProvider.create(payload, initialProps) : null;
 
-        testScenario.assertions().forEach(assertion -> assertion.execute(result, payload, ctx));
+        final TProps propsWithCtx;
+        if (Objects.isNull(initialProps)) {
+            propsWithCtx = Objects.nonNull(propertiesProvider) ? propertiesProvider.create(ctx) : null;
+        } else {
+            final TProps ctxProps = propertiesProvider.create(ctx);
+            propsWithCtx = initialProps.merge(ctxProps);
+        }
+
+        final TResult result = actionProvider.execute(payload, propsWithCtx);
+
+        assertions.forEach(assertion -> assertion.execute(result, payload, ctx));
     }
 }
