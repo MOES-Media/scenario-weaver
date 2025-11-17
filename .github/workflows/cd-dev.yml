@@ -18,10 +18,13 @@ jobs:
       actions: read
       contents: read
       security-events: write
+  dependency-submission:
+    uses: ./.github/workflows/dependency-submission.yml
   publish-snapshot:
     needs:
       - analyze
       - build-test-and-lint
+      - dependency-submission
     runs-on: ubuntu-latest
 
     permissions:

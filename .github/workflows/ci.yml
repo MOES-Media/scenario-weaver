@@ -23,3 +23,5 @@ jobs:
       security-events: write
     with:
       fail-fast: false
+  dependency-submission:
+    uses: ./.github/workflows/dependency-submission.yml
