@@ -1,0 +1,12 @@
+
+{{#each releases}}
+## {{title}}
+
+{{#each commits}}
+- {{header}}
+{{#if body}}
+  {{body}}
+{{/if}}
+{{/each}}
+
+{{/each}}
