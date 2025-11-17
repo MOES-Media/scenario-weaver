@@ -31,10 +31,9 @@ public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
             throw new IllegalArgumentException("TestScenario is null, we cannot execute what is not there...");
         }
         final TPayload payload = testScenario.payloadProvider().create(null);
-        final TProps initialProps =
-                Objects.isNull(testScenario.propertiesProvider().create(null))
-                        ? null
-                        : testScenario.propertiesProvider().create(null);
+        final TProps initialProps = Objects.isNull(testScenario.propertiesProvider())
+                ? null
+                : testScenario.propertiesProvider().create(null);
 
         final TContext ctx = Objects.isNull(testScenario.stubs())
                 ? null
