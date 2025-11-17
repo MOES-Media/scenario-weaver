@@ -24,12 +24,6 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Publish SNAPSHOT to GitHub Packages
-        run: mvn -B -s ${{ github.workspace }}/settings.xml clean deploy -DskipTests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
-
       - name: Semantic Release (changelog & pre-release)
         uses: cycjimmy/semantic-release-action@v4
         with:
@@ -42,3 +36,9 @@ jobs:
             conventional-changelog-conventionalcommits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish SNAPSHOT to GitHub Packages
+        run: mvn -B -s ${{ github.workspace }}/settings.xml clean deploy -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
