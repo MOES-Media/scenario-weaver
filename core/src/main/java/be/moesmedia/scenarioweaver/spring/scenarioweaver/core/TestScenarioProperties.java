@@ -21,7 +21,8 @@ import java.util.Arrays;
 
 public interface TestScenarioProperties {
     @SuppressWarnings("unchecked")
-    default <TPropertiesType extends TestScenarioProperties> TPropertiesType merge(final TPropertiesType newProperties) {
+    default <TPropertiesType extends TestScenarioProperties> TPropertiesType merge(
+            final TPropertiesType newProperties) {
         try {
             final Class<?> clazz = this.getClass();
             final TPropertiesType mergedProperties =

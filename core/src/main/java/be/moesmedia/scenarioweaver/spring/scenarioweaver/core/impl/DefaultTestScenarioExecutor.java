@@ -18,8 +18,8 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl;
 
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
 import java.util.Objects;
 
 public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
@@ -31,12 +31,14 @@ public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
             throw new IllegalArgumentException("TestScenario is null, we cannot execute what is not there...");
         }
         final TPayload payload = testScenario.payloadProvider().create(null);
-        final TProps initialProps = Objects.isNull(testScenario.propertiesProvider().create(null))
-                ? null
-                : testScenario.propertiesProvider().create(null);
+        final TProps initialProps =
+                Objects.isNull(testScenario.propertiesProvider().create(null))
+                        ? null
+                        : testScenario.propertiesProvider().create(null);
 
-        final TContext ctx =
-                Objects.isNull(testScenario.stubs()) ? null : testScenario.stubs().create(payload, initialProps);
+        final TContext ctx = Objects.isNull(testScenario.stubs())
+                ? null
+                : testScenario.stubs().create(payload, initialProps);
         final TProps propsWithCtx = Objects.isNull(initialProps)
                 ? testScenario.propertiesProvider().create(ctx)
                 : initialProps.merge(

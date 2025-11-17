@@ -39,8 +39,9 @@ class HelloSpringTest {
     private final TestScenarioExecutor executor = new DefaultTestScenarioExecutor();
 
     @Test
-    void test_hello_spring(@InjectTestScenario("helloSpring")
-                           TestScenario<String, TestScenarioProperties, String, Void> testScenario) {
+    void test_hello_spring(
+            @InjectTestScenario("helloSpring")
+                    TestScenario<String, TestScenarioProperties, String, Void> testScenario) {
         executor.execute(testScenario);
     }
 
