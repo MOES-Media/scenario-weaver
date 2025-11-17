@@ -12,8 +12,13 @@
       { "preset": "conventionalcommits" }
     ],
     [
-      "@semantic-release/release-notes-generator",
-      { "preset": "conventionalcommits" }
+       "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "writerOpts": {
+            "commitPartial": "- {{header}}\n{{#if body}}\n  {{body}}\n{{/if}}"
+          }
+        }
     ],
     [
       "@semantic-release/changelog",
