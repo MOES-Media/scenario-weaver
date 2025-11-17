@@ -25,9 +25,9 @@ jobs:
     uses: ./.github/workflows/dependency-submission.yml
   publish-snapshot:
     needs:
-      - analyze
       - build-test-and-lint
       - dependency-submission
+      - analyze
     runs-on: ubuntu-latest
 
     permissions:
