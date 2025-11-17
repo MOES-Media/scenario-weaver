@@ -9,5 +9,9 @@ on:
 jobs:
   analyze:
     uses: ./.github/workflows/analyze-code.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     with:
       fail-fast: false
