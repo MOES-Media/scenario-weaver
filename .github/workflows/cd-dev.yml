@@ -6,7 +6,14 @@ on:
       - development
 
 jobs:
+  build-test-and-lint:
+    uses: ./.github/workflows/build-test-and-lint.yml
+  analyze:
+    uses: ./.github/workflows/analyze-code.yml
   publish-snapshot:
+    needs:
+      - analyze
+      - build-test-and-lint
     runs-on: ubuntu-latest
 
     permissions:
