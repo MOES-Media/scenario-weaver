@@ -33,7 +33,7 @@
       {
         "prepareCmd": "mvn versions:set -DnewVersion=${nextRelease.version} -DgenerateBackupPoms=false"
       }
-    ]
+    ],
     [
         "@semantic-release/git",
         {
@@ -68,6 +68,12 @@
       [
         "@semantic-release/github",
         { "assets": [] }
+      ],
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "mvn versions:set -DnewVersion=${nextRelease.version} -DgenerateBackupPoms=false"
+        }
       ],
       [
         "@semantic-release/git",
