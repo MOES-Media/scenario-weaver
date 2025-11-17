@@ -9,5 +9,9 @@ on:
 jobs:
   build-test-and-lint:
     uses: ./.github/workflows/build-test-and-lint.yml
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
     with:
       run-tests: true

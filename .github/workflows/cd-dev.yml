@@ -8,8 +8,16 @@ on:
 jobs:
   build-test-and-lint:
     uses: ./.github/workflows/build-test-and-lint.yml
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
   analyze:
     uses: ./.github/workflows/analyze-code.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
   publish-snapshot:
     needs:
       - analyze
