@@ -30,6 +30,7 @@ jobs:
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: "maven"
 
       - name: Semantic Release (changelog & pre-release)
         uses: cycjimmy/semantic-release-action@v4
