@@ -23,12 +23,15 @@ jobs:
       contents: write
       id-token: write
     uses: ./.github/workflows/dependency-submission.yml
+  check-license-headers:
+    uses: ./.github/workflows/check-license.yml
   publish-snapshot:
     environment: SNAPSHOT
     needs:
       - build-test-and-lint
       - dependency-submission
       - analyze
+      - check-license-headers
     runs-on: ubuntu-latest
 
     permissions:

@@ -113,8 +113,12 @@
                             <excludes>
                                 <exclude>**/README</exclude>
                                 <exclude>**/LICENSE.md</exclude>
+                                <exclude>.releaserc</exclude>
+                                <exclude>checkstyle.xml</exclude>
+                                <exclude>checkstyle-suppressions.xml</exclude>
                                 <exclude>src/test/resources/**</exclude>
                                 <exclude>src/main/resources/**</exclude>
+                                <exclude>docs/**</exclude>
                             </excludes>
                         </licenseSet>
                     </licenseSets>
