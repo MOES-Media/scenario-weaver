@@ -6,28 +6,28 @@ on:
       - development
 
 jobs:
-  build-test-and-lint:
+  _01-build-test-and-lint:
     uses: ./.github/workflows/build-test-and-lint.yml
     permissions:
       checks: write
       pull-requests: write
       contents: read
-  analyze:
+  _02-analyze:
     uses: ./.github/workflows/analyze-code.yml
     permissions:
       actions: read
       contents: read
       security-events: write
-  dependency-submission:
+  _03-dependency-submission:
     permissions:
       contents: write
       id-token: write
     uses: ./.github/workflows/dependency-submission.yml
   publish-snapshot:
     needs:
-      - build-test-and-lint
-      - dependency-submission
-      - analyze
+      - _01-build-test-and-lint
+      - _02-analyze
+      - _03-dependency-submission
     runs-on: ubuntu-latest
 
     permissions:
