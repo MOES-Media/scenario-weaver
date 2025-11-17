@@ -24,6 +24,7 @@ jobs:
       id-token: write
     uses: ./.github/workflows/dependency-submission.yml
   publish-snapshot:
+    environment: SNAPSHOT
     needs:
       - build-test-and-lint
       - dependency-submission
