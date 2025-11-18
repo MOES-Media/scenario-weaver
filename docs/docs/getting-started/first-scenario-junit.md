@@ -12,11 +12,13 @@ Add the following to your `pom.xml`:
 <dependency>
     <groupId>be.moesmedia</groupId>
     <artifactId>scenario-weaver-core</artifactId>
+    <version>{{ maven_version }}</version>
     <scope>test</scope>
 </dependency>
 <dependency>
     <groupId>be.moesmedia</groupId>
     <artifactId>scenario-weaver-junit</artifactId>
+    <version>{{ maven_version }}</version>
     <scope>test</scope>
 </dependency>
 ```

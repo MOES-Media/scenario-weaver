@@ -22,7 +22,7 @@ import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProper
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioProvider;
 import java.util.Optional;
 
-public class HelloWorldTestCaseProvider implements TestScenarioProvider {
+public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
     @Override
     public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestCase(String name) {
         if ("hello-world".equals(name)) {
