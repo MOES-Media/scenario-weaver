@@ -1,1 +1,12 @@
 site_name: Scenario Weaver
+
+plugins:
+  - macros
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Your First Scenario (jUnit): getting-started/first-scenario-junit.md
+      - Your First Scenario (Spring): getting-started/first-scenario-spring.md
+      - Examples: getting-started/examples.md
