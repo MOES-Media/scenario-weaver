@@ -32,7 +32,7 @@ class HelloWorldTest {
 
     @SuppressWarnings("unused")
     @TestScenarioSource
-    private final HelloWorldTestCaseProvider testCaseProvider = new HelloWorldTestCaseProvider();
+    private final HelloWorldTestScenarioProvider testCaseProvider = new HelloWorldTestScenarioProvider();
 
     private final TestScenarioExecutor testScenarioExecutor = new DefaultTestScenarioExecutor();
 

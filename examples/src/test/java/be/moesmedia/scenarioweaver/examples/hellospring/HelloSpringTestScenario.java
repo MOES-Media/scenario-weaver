@@ -33,7 +33,7 @@ import org.springframework.http.ResponseEntity;
         payloadProvider = "myPayloadProvider",
         actionProvider = "myActionProvider",
         description = "Hello Spring Test")
-public class HelloSpringTestCase {
+public class HelloSpringTestScenario {
 
     @Assertions
     public List<AssertionsProvider<ResponseEntity<String>, Void, Void>> assertions() {
