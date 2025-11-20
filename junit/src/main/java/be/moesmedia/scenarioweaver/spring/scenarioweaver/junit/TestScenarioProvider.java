@@ -21,5 +21,5 @@ import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import java.util.Optional;
 
 public interface TestScenarioProvider {
-    Optional<? extends TestScenario<?, ?, ?, ?>> getTestCase(String name);
+    Optional<? extends TestScenario<?, ?, ?, ?>> getTestScenario(String name);
 }

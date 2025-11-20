@@ -36,6 +36,7 @@
         <wiremock.version>4.0.8</wiremock.version>
         <mockito.version>5.2.0</mockito.version>
         <palantir.verions>2.36.0</palantir.verions>
+        <jacoco.version>0.8.12</jacoco.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -82,6 +83,15 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -177,26 +187,18 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version>
                 <executions>
                     <execution>
-                        <id>prepare-agent</id>
+                        <id>jacoco-initialize</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>report</id>
-                        <phase>verify</phase>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -215,5 +217,6 @@
         <module>junit</module>
         <module>examples</module>
         <module>spring</module>
+        <module>coverage</module>
     </modules>
 </project>

@@ -37,10 +37,10 @@ public final class SpringTestScenarioWeaverExtension implements ParameterResolve
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         InjectTestScenario injectTestScenario =
                 parameterContext.findAnnotation(InjectTestScenario.class).orElse(null);
-        String testCaseName = injectTestScenario.value();
+        String testScenarioName = injectTestScenario.value();
 
         ApplicationContext ctx = SpringExtension.getApplicationContext(extensionContext);
 
-        return ctx.getBean(testCaseName, TestScenario.class);
+        return ctx.getBean(testScenarioName, TestScenario.class);
     }
 }

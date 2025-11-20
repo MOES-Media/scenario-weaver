@@ -22,17 +22,17 @@ import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecut
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.InjectTestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestCaseWeaverExtension;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioSource;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioWeaverExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(TestCaseWeaverExtension.class)
+@ExtendWith(TestScenarioWeaverExtension.class)
 class HelloWorldTest {
 
     @SuppressWarnings("unused")
     @TestScenarioSource
-    private final HelloWorldTestScenarioProvider testCaseProvider = new HelloWorldTestScenarioProvider();
+    private final HelloWorldTestScenarioProvider testScenarioProvider = new HelloWorldTestScenarioProvider();
 
     private final TestScenarioExecutor testScenarioExecutor = new DefaultTestScenarioExecutor();
 

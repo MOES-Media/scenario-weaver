@@ -31,8 +31,8 @@ public final class TestScenarioWeavingRegistrar implements ImportBeanDefinitionR
             final AnnotationMetadata importingClassMetadata, final BeanDefinitionRegistry registry) {
         final Map<String, Object> attributes = Optional.ofNullable(
                         importingClassMetadata.getAnnotationAttributes(EnableTestScenarioWeaving.class.getName()))
-                .orElseThrow(() ->
-                        new IllegalArgumentException("@EnableTestCaseWeaving required attribute basePackages not set"));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "@EnableTestScenarioWeaving required attribute basePackages not set"));
         final String[] basePackages = (String[]) attributes.get("basePackages");
 
         for (final String basePackage : basePackages) {

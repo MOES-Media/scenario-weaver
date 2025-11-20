@@ -24,7 +24,7 @@ import java.util.Optional;
 
 public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
     @Override
-    public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestCase(String name) {
+    public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestScenario(String name) {
         if ("hello-world".equals(name)) {
             return Optional.of(new HelloWorldTestScenario());
         }

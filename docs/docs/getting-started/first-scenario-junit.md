@@ -72,7 +72,7 @@ Implement a `TestScenarioProvider` that returns your scenario by name:
 ```java
 public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
     @Override
-    public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestCase(String name) {
+    public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestScenario(String name) {
         if ("hello-world".equals(name)) {
             return Optional.of(new HelloWorldTestScenario());
         }
@@ -88,11 +88,11 @@ public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
 Use the Scenario Weaver JUnit extension to inject and execute your scenario:
 
 ```java
-@ExtendWith(TestCaseWeaverExtension.class)
+@ExtendWith(TestScenarioWeaverExtension.class)
 class HelloWorldTest {
 
     @TestScenarioSource
-    private final HelloWorldTestScenarioProvider testCaseProvider = new HelloWorldTestScenarioProvider();
+    private final HelloWorldTestScenarioProvider testScenarioProvider = new HelloWorldTestScenarioProvider();
 
     private final TestScenarioExecutor testScenarioExecutor = new DefaultTestScenarioExecutor();
 
@@ -111,6 +111,7 @@ class HelloWorldTest {
 
 Run your test as a standard JUnit test.  
 Scenario Weaver will inject the scenario and execute it using your provider and executor.
+
 ---
 
 ## 6. Next Steps

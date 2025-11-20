@@ -25,7 +25,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-public final class TestCaseWeaverExtension implements ParameterResolver {
+public final class TestScenarioWeaverExtension implements ParameterResolver {
 
     @Override
     public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
@@ -40,7 +40,8 @@ public final class TestCaseWeaverExtension implements ParameterResolver {
             throws ParameterResolutionException {
         final InjectTestScenario injectTestScenarioAnnotation =
                 parameterContext.findAnnotation(InjectTestScenario.class).orElse(null);
-        final String testCaseName = injectTestScenarioAnnotation != null ? injectTestScenarioAnnotation.value() : "";
+        final String testScenarioName =
+                injectTestScenarioAnnotation != null ? injectTestScenarioAnnotation.value() : "";
 
         final Object testInstance = extensionContext.getRequiredTestInstance();
 
@@ -50,18 +51,18 @@ public final class TestCaseWeaverExtension implements ParameterResolver {
                 try {
                     final Object provider = field.get(testInstance);
                     if (provider instanceof TestScenarioProvider) {
-                        Optional<? extends TestScenario<?, ?, ?, ?>> testCase =
-                                ((TestScenarioProvider) provider).getTestCase(testCaseName);
-                        if (testCase.isPresent()) {
-                            return testCase.get();
+                        Optional<? extends TestScenario<?, ?, ?, ?>> testScenario =
+                                ((TestScenarioProvider) provider).getTestScenario(testScenarioName);
+                        if (testScenario.isPresent()) {
+                            return testScenario.get();
                         }
                     }
                 } catch (IllegalAccessException e) {
                     throw new ParameterResolutionException(
-                            "Could not access @TestCaseSource field: " + field.getName(), e);
+                            "Could not access @TestScenarioSource field: " + field.getName(), e);
                 }
             }
         }
-        throw new ParameterResolutionException("No TestCase found for name: " + testCaseName);
+        throw new ParameterResolutionException("No TestScenario found for name: " + testScenarioName);
     }
 }

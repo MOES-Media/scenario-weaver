@@ -71,12 +71,12 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
             final Object payloadProvider = ctx.getBean(payloadProviderName);
             final Object actionProvider = ctx.getBean(actionProviderName);
 
-            Object testCaseInstance = configClass.getDeclaredConstructor().newInstance();
+            Object testScenarioInstance = configClass.getDeclaredConstructor().newInstance();
             List<?> assertions = Collections.emptyList();
             for (Method m : configClass.getDeclaredMethods()) {
                 if (m.isAnnotationPresent(be.moesmedia.scenarioweaver.spring.Assertions.class)) {
                     m.setAccessible(true);
-                    assertions = (List<?>) m.invoke(testCaseInstance);
+                    assertions = (List<?>) m.invoke(testScenarioInstance);
                     break;
                 }
             }
@@ -114,7 +114,7 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
                 }
             };
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create TestCase bean for " + configClass.getName(), e);
+            throw new RuntimeException("Failed to create TestScenario bean for " + configClass.getName(), e);
         }
     }
 
