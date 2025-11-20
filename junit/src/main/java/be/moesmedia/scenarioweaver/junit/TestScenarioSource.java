@@ -15,11 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
+package be.moesmedia.scenarioweaver.junit;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
-import java.util.Optional;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface TestScenarioProvider {
-    Optional<? extends TestScenario<?, ?, ?, ?>> getTestScenario(String name);
-}
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface TestScenarioSource {}

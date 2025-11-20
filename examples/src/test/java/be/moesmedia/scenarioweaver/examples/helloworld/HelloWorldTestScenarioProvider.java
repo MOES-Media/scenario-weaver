@@ -17,9 +17,9 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
+import be.moesmedia.scenarioweaver.junit.TestScenarioProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioProvider;
 import java.util.Optional;
 
 public class HelloWorldTestScenarioProvider implements TestScenarioProvider {

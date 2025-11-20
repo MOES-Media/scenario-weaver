@@ -17,13 +17,13 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
+import be.moesmedia.scenarioweaver.junit.InjectTestScenario;
+import be.moesmedia.scenarioweaver.junit.TestScenarioSource;
+import be.moesmedia.scenarioweaver.junit.TestScenarioWeaverExtension;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.InjectTestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioSource;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestScenarioWeaverExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

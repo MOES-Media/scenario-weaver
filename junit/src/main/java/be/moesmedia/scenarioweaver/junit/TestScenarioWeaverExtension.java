@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.junit;
+package be.moesmedia.scenarioweaver.junit;
 
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
 import java.lang.reflect.Field;
