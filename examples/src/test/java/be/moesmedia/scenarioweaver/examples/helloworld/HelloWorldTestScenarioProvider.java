@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-core - Scenario based testing
+ * scenario-weaver-examples - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.examples.helloworld;
 
-@FunctionalInterface
-public interface PropertiesProvider<TPropertiesType extends TestScenarioProperties, TContext> {
-    TPropertiesType create(TContext context);
+import be.moesmedia.scenarioweaver.junit.TestScenarioProvider;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
+import java.util.Optional;
+
+public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
+    @Override
+    public Optional<TestScenario<String, TestScenarioProperties, String, Void>> getTestScenario(String name) {
+        if ("hello-world".equals(name)) {
+            return Optional.of(new HelloWorldTestScenario());
+        }
+        return Optional.empty();
+    }
 }

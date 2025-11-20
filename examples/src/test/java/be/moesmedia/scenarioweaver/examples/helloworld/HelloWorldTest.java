@@ -17,27 +17,29 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCase;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestCaseProperties;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestExecutor;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestExecutor;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.InjectTestCase;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestCaseSource;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.junit.TestCaseWeaverExtension;
+import be.moesmedia.scenarioweaver.junit.InjectTestScenario;
+import be.moesmedia.scenarioweaver.junit.TestScenarioSource;
+import be.moesmedia.scenarioweaver.junit.TestScenarioWeaverExtension;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(TestCaseWeaverExtension.class)
+@ExtendWith(TestScenarioWeaverExtension.class)
 class HelloWorldTest {
 
     @SuppressWarnings("unused")
-    @TestCaseSource
-    private final HelloWorldTestCaseProvider testCaseProvider = new HelloWorldTestCaseProvider();
+    @TestScenarioSource
+    private final HelloWorldTestScenarioProvider testScenarioProvider = new HelloWorldTestScenarioProvider();
 
-    private final TestExecutor testExecutor = new DefaultTestExecutor();
+    private final TestScenarioExecutor testScenarioExecutor = new DefaultTestScenarioExecutor();
 
     @Test
-    void test_hello_world(@InjectTestCase("hello-world") TestCase<String, TestCaseProperties, String, Void> testCase) {
-        testExecutor.execute(testCase);
+    void test_hello_world(
+            @InjectTestScenario("hello-world")
+                    TestScenario<String, TestScenarioProperties, String, Void> testScenario) {
+        testScenarioExecutor.execute(testScenario);
     }
 }

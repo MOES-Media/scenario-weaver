@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-core - Scenario based testing
+ * scenario-weaver-spring - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.spring;
 
-@FunctionalInterface
-public interface PropertiesProvider<TPropertiesType extends TestScenarioProperties, TContext> {
-    TPropertiesType create(TContext context);
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ConfigureTestScenario {
+    String stubsProvider();
+
+    String propertiesProvider();
+
+    String payloadProvider();
+
+    String actionProvider();
+
+    String description() default "";
+
+    String group() default "";
+
+    String name() default "";
 }

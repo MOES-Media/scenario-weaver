@@ -17,7 +17,18 @@
  */
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
-@FunctionalInterface
-public interface PropertiesProvider<TPropertiesType extends TestScenarioProperties, TContext> {
-    TPropertiesType create(TContext context);
+import java.util.List;
+
+public interface TestScenario<TPayload, TProps extends TestScenarioProperties, TResult, TContext> {
+    String description();
+
+    PayloadProvider<TContext, TPayload> payloadProvider();
+
+    PropertiesProvider<TProps, TContext> propertiesProvider();
+
+    StubsProvider<TPayload, TProps, TContext> stubs();
+
+    List<AssertionsProvider<TResult, TPayload, TContext>> assertions();
+
+    ActionProvider<TPayload, TProps, TResult> actionProvider();
 }

@@ -36,6 +36,7 @@
         <wiremock.version>4.0.8</wiremock.version>
         <mockito.version>5.2.0</mockito.version>
         <palantir.verions>2.36.0</palantir.verions>
+        <jacoco.version>0.8.12</jacoco.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -82,6 +83,15 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -174,6 +184,25 @@
                     <configLocation>checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <distributionManagement>
@@ -188,5 +217,6 @@
         <module>junit</module>
         <module>examples</module>
         <module>spring</module>
+        <module>coverage</module>
     </modules>
 </project>
