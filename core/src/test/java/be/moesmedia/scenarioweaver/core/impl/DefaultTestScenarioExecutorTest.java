@@ -46,8 +46,7 @@ class DefaultTestScenarioExecutorTest {
     static class DummyContext implements TestScenarioContext<String> {
         private String payload;
 
-        public DummyContext() {
-        }
+        public DummyContext() {}
 
         public DummyContext(String payload) {
             this.payload = payload;
