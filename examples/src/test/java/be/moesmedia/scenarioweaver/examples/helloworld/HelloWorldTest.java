@@ -17,13 +17,12 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
+import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioExecutor;
+import be.moesmedia.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import be.moesmedia.scenarioweaver.junit.InjectTestScenario;
 import be.moesmedia.scenarioweaver.junit.TestScenarioSource;
 import be.moesmedia.scenarioweaver.junit.TestScenarioWeaverExtension;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioContext;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -37,8 +36,7 @@ class HelloWorldTest {
     private final TestScenarioExecutor testScenarioExecutor = new DefaultTestScenarioExecutor();
 
     @Test
-    void test_hello_world(
-            @InjectTestScenario("hello-world") TestScenario<String, TestScenarioContext, String, Void> testScenario) {
+    void test_hello_world(@InjectTestScenario("hello-world") TestScenario<String, HelloWorldContext> testScenario) {
         testScenarioExecutor.execute(testScenario);
     }
 }

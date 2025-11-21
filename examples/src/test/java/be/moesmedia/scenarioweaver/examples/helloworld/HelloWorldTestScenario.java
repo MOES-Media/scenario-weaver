@@ -19,37 +19,47 @@ package be.moesmedia.scenarioweaver.examples.helloworld;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
+import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.AssertionsProvider;
+import be.moesmedia.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.core.StubsProvider;
+import be.moesmedia.scenarioweaver.core.TestScenario;
 import java.util.List;
 
-public class HelloWorldTestScenario implements TestScenario<String, TestScenarioContext, String, Void> {
+public class HelloWorldTestScenario implements TestScenario<String, HelloWorldContext> {
     @Override
     public String description() {
         return "Hello World Test";
     }
 
     @Override
-    public PayloadProvider<Void, String> payloadProvider() {
-        return ctx -> "Hello, World!";
+    public PayloadProvider<HelloWorldContext> payloadProvider() {
+        return ctx -> ctx.payload("Hello World!");
     }
 
     @Override
-    public PropertiesProvider<TestScenarioContext, Void> propertiesProvider() {
-        return ctx -> null;
+    public PropertiesProvider<HelloWorldContext> propertiesProvider() {
+        return ctx -> ctx;
     }
 
     @Override
-    public StubsProvider<String, TestScenarioContext, Void> stubs() {
-        return (payload, props) -> null;
+    public StubsProvider<HelloWorldContext> stubs() {
+        return ctx -> ctx;
     }
 
     @Override
-    public List<AssertionsProvider<String, String, Void>> assertions() {
-        return List.of((expected, actual, ctx) -> assertEquals(expected, actual));
+    public List<AssertionsProvider<HelloWorldContext>> assertions() {
+        return List.of((ctx) -> assertEquals(ctx.expected(), ctx.actual()));
     }
 
     @Override
-    public ActionProvider<String, TestScenarioContext, String> actionProvider() {
-        return (payload, props) -> payload;
+    public ActionProvider<String, HelloWorldContext> actionProvider() {
+        return (payload, ctx) -> ctx.actual(payload);
+    }
+
+    @Override
+    public HelloWorldContext context() {
+        return new HelloWorldContext();
     }
 }

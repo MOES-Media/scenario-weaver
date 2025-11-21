@@ -15,9 +15,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
-@FunctionalInterface
-public interface StubsProvider<TContext> {
-    TContext create(TContext context);
+import java.util.List;
+
+public interface TestScenario<TPayload, TContext extends TestScenarioContext<TPayload>> {
+    String description();
+
+    PayloadProvider<TContext> payloadProvider();
+
+    PropertiesProvider<TContext> propertiesProvider();
+
+    StubsProvider<TContext> stubs();
+
+    List<AssertionsProvider<TContext>> assertions();
+
+    ActionProvider<TPayload, TContext> actionProvider();
+
+    TContext context();
+
+    @SuppressWarnings("unchecked")
+    default Class<TContext> contextClass() {
+        return (Class<TContext>) context().getClass();
+    }
 }

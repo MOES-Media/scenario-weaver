@@ -17,18 +17,23 @@
  */
 package be.moesmedia.scenarioweaver.examples.hellospring;
 
+import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.core.StubsProvider;
+import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioContext;
+import be.moesmedia.scenarioweaver.core.TestScenarioExecutor;
+import be.moesmedia.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import be.moesmedia.scenarioweaver.spring.EnableTestScenarioWeaving;
 import be.moesmedia.scenarioweaver.spring.InjectTestScenario;
 import be.moesmedia.scenarioweaver.spring.SpringTestScenarioWeaverExtension;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(
         classes = {HelloSpringApplication.class, HelloSpringTest.MyTestConfig.class},
@@ -40,7 +45,7 @@ class HelloSpringTest {
 
     @Test
     void test_hello_spring(
-            @InjectTestScenario("helloSpring") TestScenario<String, TestScenarioContext, String, Void> testScenario) {
+            @InjectTestScenario("helloSpring") TestScenario<String, ? extends TestScenarioContext> testScenario) {
         executor.execute(testScenario);
     }
 
@@ -48,23 +53,23 @@ class HelloSpringTest {
     @EnableTestScenarioWeaving(basePackages = "be.moesmedia.scenarioweaver.examples.hellospring")
     static class MyTestConfig {
         @Bean
-        public StubsProvider<Void, TestScenarioContext, Void> myStubsProvider() {
-            return (payload, properties) -> null;
+        public StubsProvider<HelloSpringContext> myStubsProvider() {
+            return (ctx) -> ctx;
         }
 
         @Bean
-        public PropertiesProvider<TestScenarioContext, Void> myPropertiesProvider() {
-            return props -> null;
+        public PropertiesProvider<HelloSpringContext> myPropertiesProvider() {
+            return ctx -> ctx;
         }
 
         @Bean
-        public PayloadProvider<Void, Void> myPayloadProvider() {
-            return ctx -> null;
+        public PayloadProvider<HelloSpringContext> myPayloadProvider() {
+            return ctx -> ctx;
         }
 
         @Bean
-        public ActionProvider<Void, Void, ResponseEntity<String>> myActionProvider(TestRestTemplate testRestTemplate) {
-            return (payload, props) -> testRestTemplate.getForEntity("/hello-spring", String.class);
+        public ActionProvider<Void, HelloSpringContext> myActionProvider(TestRestTemplate testRestTemplate) {
+            return (ignored, ctx) -> ctx.response(testRestTemplate.getForEntity("/hello-spring", String.class));
         }
     }
 }

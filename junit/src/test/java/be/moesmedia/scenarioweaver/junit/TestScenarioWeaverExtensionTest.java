@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenario;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -76,10 +76,11 @@ class TestScenarioWeaverExtensionTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void resolveParameterReturnsScenarioWhenFound() throws Exception {
         class Provider implements TestScenarioProvider {
             @Override
-            public Optional<TestScenario<?, ?, ?, ?>> getTestScenario(String name) {
+            public Optional<TestScenario<?, ?>> getTestScenario(String name) {
                 return "foo".equals(name) ? Optional.of(mock(TestScenario.class)) : Optional.empty();
             }
         }
@@ -107,7 +108,7 @@ class TestScenarioWeaverExtensionTest {
     void resolveParameterThrowsIfNoScenarioFound() {
         class Provider implements TestScenarioProvider {
             @Override
-            public Optional<TestScenario<?, ?, ?, ?>> getTestScenario(String name) {
+            public Optional<TestScenario<?, ?>> getTestScenario(String name) {
                 return Optional.empty();
             }
         }
@@ -136,7 +137,7 @@ class TestScenarioWeaverExtensionTest {
     void resolveParameterHandlesNoAnnotation() {
         class Provider implements TestScenarioProvider {
             @Override
-            public Optional<TestScenario<?, ?, ?, ?>> getTestScenario(String name) {
+            public Optional<TestScenario<?, ?>> getTestScenario(String name) {
                 if (name.isEmpty()) {
                     return Optional.empty();
                 }

@@ -38,4 +38,6 @@ public @interface ConfigureTestScenario {
     String group() default "";
 
     String name() default "";
+
+    Class<?> context() default Object.class;
 }

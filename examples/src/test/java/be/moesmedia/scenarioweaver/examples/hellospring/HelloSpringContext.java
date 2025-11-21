@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-core - Scenario based testing
+ * scenario-weaver-examples - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,22 +15,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.examples.hellospring;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
+import be.moesmedia.scenarioweaver.core.TestScenarioContext;
+import org.springframework.http.ResponseEntity;
 
-public record TestScenarioPipe<T>(T value) {
+public class HelloSpringContext implements TestScenarioContext<Void> {
 
-    public static <T> TestScenarioPipe<T> of(T value) {
-        return new TestScenarioPipe<>(value);
+    private ResponseEntity<String> response;
+
+    @Override
+    public Void payload() {
+        return null;
     }
 
-    public <R> TestScenarioPipe<R> pipe(Function<? super T, ? extends R> mapper) {
-        return new TestScenarioPipe<>(mapper.apply(value));
+    public ResponseEntity<String> response() {
+        return response;
     }
 
-    public void execute(Consumer<? super T> runner) {
-        runner.accept(value);
+    public HelloSpringContext response(ResponseEntity<String> response) {
+        this.response = response;
+        return this;
     }
 }

@@ -17,7 +17,7 @@
  */
 package be.moesmedia.scenarioweaver.junit;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenario;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -51,7 +51,7 @@ public final class TestScenarioWeaverExtension implements ParameterResolver {
                 try {
                     final Object provider = field.get(testInstance);
                     if (provider instanceof TestScenarioProvider) {
-                        Optional<? extends TestScenario<?, ?, ?, ?>> testScenario =
+                        Optional<? extends TestScenario<?, ?>> testScenario =
                                 ((TestScenarioProvider) provider).getTestScenario(testScenarioName);
                         if (testScenario.isPresent()) {
                             return testScenario.get();

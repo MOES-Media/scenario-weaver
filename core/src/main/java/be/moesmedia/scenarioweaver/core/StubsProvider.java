@@ -15,10 +15,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
 @FunctionalInterface
-public interface TestScenarioExecutor {
-    <TPayload, TContext extends TestScenarioContext<TPayload>> void execute(
-            TestScenario<TPayload, TContext> testScenario);
+public interface StubsProvider<TContext> {
+    TContext create(TContext context);
 }

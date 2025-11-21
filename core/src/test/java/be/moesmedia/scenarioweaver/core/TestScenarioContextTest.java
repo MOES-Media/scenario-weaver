@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -26,7 +26,8 @@ import org.junit.jupiter.api.Test;
 
 class TestScenarioContextTest {
 
-    public static class SimpleProps implements TestScenarioContext {
+    @SuppressWarnings("rawtypes")
+    static class SimpleProps implements TestScenarioContext {
         public String a;
         public String b;
 
@@ -56,6 +57,7 @@ class TestScenarioContextTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void mergeUsesNewIfOriginalIsNull() {
         final var original = new SimpleProps(null, null);
         final var other = new SimpleProps("bar", "baz");
@@ -67,6 +69,7 @@ class TestScenarioContextTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void mergeKeepsNullIfBothAreNull() {
         final var original = new SimpleProps(null, null);
         final var other = new SimpleProps(null, null);
@@ -78,13 +81,9 @@ class TestScenarioContextTest {
     }
 
     @Test
+    @SuppressWarnings({"rawtypes", "unchecked"})
     void mergeThrowsIfNoDefaultConstructor() {
-        class NoDefaultCtor implements TestScenarioContext {
-            public final String x;
-
-            public NoDefaultCtor(String x) {
-                this.x = x;
-            }
+        record NoDefaultCtor(String x) implements TestScenarioContext {
 
             @Override
             public Object payload() {

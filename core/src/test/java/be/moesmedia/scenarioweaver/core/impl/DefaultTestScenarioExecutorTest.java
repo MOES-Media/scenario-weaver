@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl;
+package be.moesmedia.scenarioweaver.core.impl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
@@ -23,13 +23,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.ActionProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.AssertionsProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioContext;
+import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.AssertionsProvider;
+import be.moesmedia.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.core.StubsProvider;
+import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioContext;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +89,7 @@ class DefaultTestScenarioExecutorTest {
         when(stubsProvider.create(propertiesCtx)).thenReturn(stubsCtx);
 
         when(scenario.actionProvider()).thenReturn(actionProvider);
-        when(actionProvider.execute(stubsCtx.payload())).thenReturn(resultCtx);
+        when(actionProvider.execute(stubsCtx.payload(), stubsCtx)).thenReturn(resultCtx);
 
         when(scenario.assertions()).thenReturn(List.of(assertion));
 
@@ -98,25 +98,7 @@ class DefaultTestScenarioExecutorTest {
         verify(payloadProvider).create(any());
         verify(propertiesProvider).create(payloadCtx);
         verify(stubsProvider).create(propertiesCtx);
-        verify(actionProvider).execute(stubsCtx.payload());
+        verify(actionProvider).execute(stubsCtx.payload(), stubsCtx);
         verify(assertion).execute(resultCtx);
-    }
-
-    @Test
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    void shouldThrowRuntimeExceptionIfContextCannotBeConstructed() {
-        TestScenario<String, DummyContext> scenario = mock(TestScenario.class);
-
-        class NoDefaultCtor implements TestScenarioContext<String> {
-            public NoDefaultCtor(String s) {}
-
-            @Override
-            public String payload() {
-                return null;
-            }
-        }
-        when(scenario.contextClass()).thenReturn((Class) NoDefaultCtor.class);
-
-        assertThrows(RuntimeException.class, () -> executor.execute(scenario));
     }
 }
