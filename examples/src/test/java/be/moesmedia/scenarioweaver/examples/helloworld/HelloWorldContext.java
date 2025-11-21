@@ -17,17 +17,38 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
-import be.moesmedia.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.core.TestScenarioContext;
-import be.moesmedia.scenarioweaver.junit.TestScenarioProvider;
-import java.util.Optional;
 
-public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
+public class HelloWorldContext implements TestScenarioContext<String> {
+    private String actual;
+    private String expected = "Hello World!";
+    private String payload;
+
     @Override
-    public Optional<TestScenario<?, ? extends TestScenarioContext<?>>> getTestScenario(String name) {
-        if ("hello-world".equals(name)) {
-            return Optional.of(new HelloWorldTestScenario());
-        }
-        return Optional.empty();
+    public String payload() {
+        return payload;
+    }
+
+    public HelloWorldContext payload(String payload) {
+        this.payload = payload;
+        return this;
+    }
+
+    public String expected() {
+        return expected;
+    }
+
+    public HelloWorldContext expected(String expected) {
+        this.expected = expected;
+        return this;
+    }
+
+    public String actual() {
+        return actual;
+    }
+
+    public HelloWorldContext actual(String actual) {
+        this.actual = actual;
+        return this;
     }
 }

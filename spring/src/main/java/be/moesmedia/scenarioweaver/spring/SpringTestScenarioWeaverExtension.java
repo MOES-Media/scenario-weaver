@@ -17,7 +17,7 @@
  */
 package be.moesmedia.scenarioweaver.spring;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenario;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;

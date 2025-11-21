@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
 @FunctionalInterface
-public interface StubsProvider<TPayload, TAdditionalProperties, TContext> {
-    TContext create(TPayload payload, TAdditionalProperties additionalProperties);
+public interface StubsProvider<TContext> {
+    TContext create(TContext context);
 }

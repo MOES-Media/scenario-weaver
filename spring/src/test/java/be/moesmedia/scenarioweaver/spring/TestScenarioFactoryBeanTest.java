@@ -20,13 +20,19 @@ package be.moesmedia.scenarioweaver.spring;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
+import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.core.StubsProvider;
+import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioContext;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 
+@SuppressWarnings("rawtypes")
 class TestScenarioFactoryBeanTest {
 
     private ApplicationContext ctx;
@@ -60,6 +66,13 @@ class TestScenarioFactoryBeanTest {
         public void someMethod() {}
     }
 
+    static class TestContext implements TestScenarioContext<Object> {
+        @Override
+        public Object payload() {
+            return null;
+        }
+    }
+
     @Test
     void getObject_returnsTestScenario_withAssertions() {
         final var factoryBean = new TestScenarioFactoryBean(
@@ -69,7 +82,8 @@ class TestScenarioFactoryBeanTest {
                 "payloadProvider",
                 "actionProvider",
                 "desc",
-                "group");
+                "group",
+                TestContext.class);
         factoryBean.setApplicationContext(ctx);
 
         final var scenario = factoryBean.getObject();
@@ -91,7 +105,8 @@ class TestScenarioFactoryBeanTest {
                 "payloadProvider",
                 "actionProvider",
                 "desc2",
-                "group2");
+                "group2",
+                TestContext.class);
         factoryBean.setApplicationContext(ctx);
 
         final var scenario = factoryBean.getObject();
@@ -113,7 +128,8 @@ class TestScenarioFactoryBeanTest {
                 "payloadProvider",
                 "actionProvider",
                 "desc",
-                "group");
+                "group",
+                TestContext.class);
         final var ex = assertThrows(RuntimeException.class, factoryBean::getObject);
         assertTrue(ex.getMessage().contains("Failed to create TestScenario bean"));
     }
@@ -127,7 +143,8 @@ class TestScenarioFactoryBeanTest {
                 "payloadProvider",
                 "actionProvider",
                 "desc",
-                "group");
+                "group",
+                TestContext.class);
         assertEquals(TestScenario.class, factoryBean.getObjectType());
     }
 }

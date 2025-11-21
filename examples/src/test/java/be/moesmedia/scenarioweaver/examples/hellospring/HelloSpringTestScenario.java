@@ -19,15 +19,15 @@ package be.moesmedia.scenarioweaver.examples.hellospring;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import be.moesmedia.scenarioweaver.core.AssertionsProvider;
 import be.moesmedia.scenarioweaver.spring.Assertions;
 import be.moesmedia.scenarioweaver.spring.ConfigureTestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.AssertionsProvider;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @ConfigureTestScenario(
         name = "helloSpring",
+        context = HelloSpringContext.class,
         stubsProvider = "myStubsProvider",
         propertiesProvider = "myPropertiesProvider",
         payloadProvider = "myPayloadProvider",
@@ -36,10 +36,10 @@ import org.springframework.http.ResponseEntity;
 public class HelloSpringTestScenario {
 
     @Assertions
-    public List<AssertionsProvider<ResponseEntity<String>, Void, Void>> assertions() {
-        return List.of((actual, expected, unused) -> {
-            assertEquals(HttpStatus.OK, actual.getStatusCode());
-            assertEquals("Hello Spring!", actual.getBody());
+    public List<AssertionsProvider<HelloSpringContext>> assertions() {
+        return List.of((ctx) -> {
+            assertEquals(HttpStatus.OK, ctx.response().getStatusCode());
+            assertEquals("Hello Spring!", ctx.response().getBody());
         });
     }
 }

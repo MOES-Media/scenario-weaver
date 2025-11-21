@@ -15,15 +15,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-class TestScenarioPropertiesTest {
+class TestScenarioContextTest {
 
-    static class SimpleProps implements TestScenarioProperties {
+    @SuppressWarnings("rawtypes")
+    static class SimpleProps implements TestScenarioContext {
         public String a;
         public String b;
 
@@ -33,48 +37,57 @@ class TestScenarioPropertiesTest {
             this.a = a;
             this.b = b;
         }
+
+        @Override
+        public Object payload() {
+            return null;
+        }
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void mergePrefersOriginalIfNotNull() {
         final var original = new SimpleProps("foo", null);
         final var other = new SimpleProps("bar", "baz");
 
-        final var merged = original.merge(other);
+        final var merged = (SimpleProps) original.merge(other);
 
         assertEquals("foo", merged.a);
         assertEquals("baz", merged.b);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void mergeUsesNewIfOriginalIsNull() {
         final var original = new SimpleProps(null, null);
         final var other = new SimpleProps("bar", "baz");
 
-        final var merged = original.merge(other);
+        final var merged = (SimpleProps) original.merge(other);
 
         assertEquals("bar", merged.a);
         assertEquals("baz", merged.b);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void mergeKeepsNullIfBothAreNull() {
         final var original = new SimpleProps(null, null);
         final var other = new SimpleProps(null, null);
 
-        final var merged = original.merge(other);
+        final var merged = (SimpleProps) original.merge(other);
 
         assertNull(merged.a);
         assertNull(merged.b);
     }
 
     @Test
+    @SuppressWarnings({"rawtypes", "unchecked"})
     void mergeThrowsIfNoDefaultConstructor() {
-        class NoDefaultCtor implements TestScenarioProperties {
-            public final String x;
+        record NoDefaultCtor(String x) implements TestScenarioContext {
 
-            public NoDefaultCtor(String x) {
-                this.x = x;
+            @Override
+            public Object payload() {
+                return null;
             }
         }
         final var original = new NoDefaultCtor("foo");

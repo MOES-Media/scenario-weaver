@@ -17,21 +17,24 @@
  */
 package be.moesmedia.scenarioweaver.spring;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.ActionProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
-import java.lang.reflect.Method;
+import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.PayloadProvider;
+import be.moesmedia.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.core.StubsProvider;
+import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioContext;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNull;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?, ?, ?, ?>>, ApplicationContextAware {
+public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?, ?>>, ApplicationContextAware {
     private final Class<?> configClass;
+    private final Class<? extends TestScenarioContext<?>> contextClass;
     private final String stubsProviderName;
     private final String propertiesProviderName;
     private final String payloadProviderName;
@@ -48,7 +51,8 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
             String payloadProviderName,
             String actionProviderName,
             String description,
-            String group) {
+            String group,
+            Class<? extends TestScenarioContext<?>> contextClass) {
         this.configClass = configClass;
         this.stubsProviderName = stubsProviderName;
         this.propertiesProviderName = propertiesProviderName;
@@ -56,24 +60,26 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
         this.actionProviderName = actionProviderName;
         this.description = description;
         this.group = group;
+        this.contextClass = contextClass;
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         this.ctx = applicationContext;
     }
 
     @Override
-    public TestScenario<?, ?, ?, ?> getObject() {
+    public TestScenario<?, ?> getObject() {
         try {
             final Object stubsProvider = ctx.getBean(stubsProviderName);
             final Object propertiesProvider = ctx.getBean(propertiesProviderName);
             final Object payloadProvider = ctx.getBean(payloadProviderName);
             final Object actionProvider = ctx.getBean(actionProviderName);
 
-            Object testScenarioInstance = configClass.getDeclaredConstructor().newInstance();
+            final var testScenarioInstance =
+                    configClass.getDeclaredConstructor().newInstance();
             List<?> assertions = Collections.emptyList();
-            for (Method m : configClass.getDeclaredMethods()) {
+            for (final var m : configClass.getDeclaredMethods()) {
                 if (m.isAnnotationPresent(be.moesmedia.scenarioweaver.spring.Assertions.class)) {
                     m.setAccessible(true);
                     assertions = (List<?>) m.invoke(testScenarioInstance);
@@ -81,7 +87,7 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
                 }
             }
 
-            List<?> finalAssertions = assertions;
+            final var finalAssertions = assertions;
             return new TestScenario<>() {
                 @Override
                 public String description() {
@@ -111,6 +117,18 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
                 @Override
                 public ActionProvider actionProvider() {
                     return (ActionProvider) actionProvider;
+                }
+
+                @Override
+                public TestScenarioContext context() {
+                    try {
+                        return contextClass.getDeclaredConstructor().newInstance();
+                    } catch (InvocationTargetException
+                            | InstantiationException
+                            | IllegalAccessException
+                            | NoSuchMethodException e) {
+                        return null;
+                    }
                 }
             };
         } catch (Exception e) {

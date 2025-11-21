@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-junit - Scenario based testing
+ * scenario-weaver-core - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,11 +15,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.junit;
+package be.moesmedia.scenarioweaver.core;
 
-import be.moesmedia.scenarioweaver.core.TestScenario;
-import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-public interface TestScenarioProvider {
-    Optional<? extends TestScenario<?, ?>> getTestScenario(String name);
+public record TestScenarioPipe<T>(T value) {
+
+    public static <T> TestScenarioPipe<T> of(T value) {
+        return new TestScenarioPipe<>(value);
+    }
+
+    public <R> TestScenarioPipe<R> pipe(Function<? super T, ? extends R> mapper) {
+        return new TestScenarioPipe<>(mapper.apply(value));
+    }
+
+    public void execute(Consumer<? super T> runner) {
+        runner.accept(value);
+    }
 }

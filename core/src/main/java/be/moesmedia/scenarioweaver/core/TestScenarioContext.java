@@ -15,22 +15,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-public interface TestScenarioProperties {
+public interface TestScenarioContext<TPayload> {
+    TPayload payload();
+
     @SuppressWarnings("unchecked")
-    default <TPropertiesType extends TestScenarioProperties> TPropertiesType merge(
-            final TPropertiesType newProperties) {
+    default <TContext extends TestScenarioContext<TPayload>> TContext merge(final TContext context) {
         try {
             final Class<?> clazz = this.getClass();
-            final TPropertiesType mergedProperties =
-                    (TPropertiesType) clazz.getDeclaredConstructor().newInstance();
+            final TContext mergedProperties =
+                    (TContext) clazz.getDeclaredConstructor().newInstance();
 
             Arrays.stream(clazz.getDeclaredFields())
-                    .forEach(field -> copyFieldValue(field, this, newProperties, mergedProperties));
+                    .forEach(field -> copyFieldValue(field, this, context, mergedProperties));
 
             return mergedProperties;
         } catch (final Exception e) {

@@ -48,6 +48,7 @@ public final class TestScenarioWeavingRegistrar implements ImportBeanDefinitionR
                 def.getConstructorArgumentValues().addIndexedArgumentValue(4, config.actionProvider());
                 def.getConstructorArgumentValues().addIndexedArgumentValue(5, config.description());
                 def.getConstructorArgumentValues().addIndexedArgumentValue(6, config.group());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(7, config.context());
 
                 final String beanName = !config.name().isEmpty() ? config.name() : clazz.getSimpleName();
                 registry.registerBeanDefinition(beanName, def);

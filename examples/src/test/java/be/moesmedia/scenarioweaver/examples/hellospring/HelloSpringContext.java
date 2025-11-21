@@ -1,5 +1,5 @@
 /*
- * scenario-weaver-junit - Scenario based testing
+ * scenario-weaver-examples - Scenario based testing
  * Copyright © 2025 MOES-Media (info@moes-media.be)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,11 +15,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.junit;
+package be.moesmedia.scenarioweaver.examples.hellospring;
 
-import be.moesmedia.scenarioweaver.core.TestScenario;
-import java.util.Optional;
+import be.moesmedia.scenarioweaver.core.TestScenarioContext;
+import org.springframework.http.ResponseEntity;
 
-public interface TestScenarioProvider {
-    Optional<? extends TestScenario<?, ?>> getTestScenario(String name);
+public class HelloSpringContext implements TestScenarioContext<Void> {
+
+    private ResponseEntity<String> response;
+
+    @Override
+    public Void payload() {
+        return null;
+    }
+
+    public ResponseEntity<String> response() {
+        return response;
+    }
+
+    public HelloSpringContext response(ResponseEntity<String> response) {
+        this.response = response;
+        return this;
+    }
 }

@@ -20,7 +20,7 @@ package be.moesmedia.scenarioweaver.spring;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenario;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;

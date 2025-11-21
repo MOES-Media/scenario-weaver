@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
+package be.moesmedia.scenarioweaver.core;
 
 @FunctionalInterface
-public interface AssertionsProvider<TActual, TExpected, TContext> {
-    void execute(TActual expected, TExpected actual, TContext context);
+public interface PayloadProvider<TContext> {
+    TContext create(TContext context);
 }
