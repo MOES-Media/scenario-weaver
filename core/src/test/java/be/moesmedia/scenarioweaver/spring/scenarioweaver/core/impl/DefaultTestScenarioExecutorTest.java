@@ -18,8 +18,8 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +29,7 @@ import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioContext;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +43,21 @@ class DefaultTestScenarioExecutorTest {
         executor = new DefaultTestScenarioExecutor();
     }
 
+    static class DummyContext implements TestScenarioContext<String> {
+        private String payload;
+
+        public DummyContext() {}
+
+        public DummyContext(String payload) {
+            this.payload = payload;
+        }
+
+        @Override
+        public String payload() {
+            return payload;
+        }
+    }
+
     @Test
     void shouldThrowExceptionWhenTestScenarioIsNull() {
         assertThrows(IllegalArgumentException.class, () -> executor.execute(null));
@@ -50,160 +65,58 @@ class DefaultTestScenarioExecutorTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    void shouldExecuteScenarioWithAllProviders() {
-        final var scenario = mock(TestScenario.class);
-        final var payloadProvider = mock(PayloadProvider.class);
-        final var propertiesProvider = mock(PropertiesProvider.class);
-        final var actionProvider = mock(ActionProvider.class);
-        final var assertion = mock(AssertionsProvider.class);
-        final var stubs = mock(StubsProvider.class);
+    void shouldExecuteScenarioWithAllProviders() throws Exception {
+        TestScenario<String, DummyContext> scenario = mock(TestScenario.class);
+        PayloadProvider<DummyContext> payloadProvider = mock(PayloadProvider.class);
+        PropertiesProvider<DummyContext> propertiesProvider = mock(PropertiesProvider.class);
+        StubsProvider<DummyContext> stubsProvider = mock(StubsProvider.class);
+        ActionProvider<String, DummyContext> actionProvider = mock(ActionProvider.class);
+        AssertionsProvider<DummyContext> assertion = mock(AssertionsProvider.class);
 
-        final var payload = "payload";
-        final var initialProps = mock(TestScenarioProperties.class);
-        final var ctxProps = mock(TestScenarioProperties.class);
-        final var ctx = "context";
-        final var result = 42;
+        DummyContext payloadCtx = new DummyContext("payload");
+        DummyContext propertiesCtx = new DummyContext("props");
+        DummyContext stubsCtx = new DummyContext("stubs");
+        DummyContext resultCtx = new DummyContext("result");
 
+        when(scenario.contextClass()).thenReturn(DummyContext.class);
         when(scenario.payloadProvider()).thenReturn(payloadProvider);
-        when(payloadProvider.create(null)).thenReturn(payload);
+        when(payloadProvider.create(any())).thenReturn(payloadCtx);
 
         when(scenario.propertiesProvider()).thenReturn(propertiesProvider);
-        when(propertiesProvider.create(null)).thenReturn(initialProps);
-        when(propertiesProvider.create(ctx)).thenReturn(ctxProps);
-
-        when(scenario.stubs()).thenReturn(stubs);
-        when(stubs.create(payload, initialProps)).thenReturn(ctx);
-
-        when(initialProps.merge(ctxProps)).thenReturn(ctxProps);
-
-        when(scenario.actionProvider()).thenReturn(actionProvider);
-        when(actionProvider.execute(payload, ctxProps)).thenReturn(result);
-
-        when(scenario.assertions()).thenReturn(List.of(assertion));
-
-        executor.execute(scenario);
-
-        verify(payloadProvider).create(null);
-        verify(propertiesProvider).create(null);
-        verify(stubs).create(payload, initialProps);
-        verify(propertiesProvider).create(ctx);
-        verify(initialProps).merge(ctxProps);
-        verify(actionProvider).execute(payload, ctxProps);
-        verify(assertion).execute(result, payload, ctx);
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    void shouldHandleNullStubsAndInitialProps() {
-        final var scenario = mock(TestScenario.class);
-        final var payloadProvider = mock(PayloadProvider.class);
-        final var propertiesProvider = mock(PropertiesProvider.class);
-        final var actionProvider = mock(ActionProvider.class);
-        final var assertion = mock(AssertionsProvider.class);
-
-        final var payload = "payload";
-        final var ctxProps = new TestProps("ctx");
-        final var result = 42;
-
-        when(scenario.payloadProvider()).thenReturn(payloadProvider);
-        when(payloadProvider.create(null)).thenReturn(payload);
-
-        when(scenario.propertiesProvider()).thenReturn(propertiesProvider);
-        when(propertiesProvider.create(null)).thenReturn(null);
-        when(propertiesProvider.create(null)).thenReturn(ctxProps);
-
-        when(scenario.stubs()).thenReturn(null);
-
-        when(scenario.actionProvider()).thenReturn(actionProvider);
-        when(actionProvider.execute(payload, ctxProps)).thenReturn(result);
-
-        when(scenario.assertions()).thenReturn(List.of(assertion));
-
-        executor.execute(scenario);
-
-        verify(payloadProvider).create(null);
-        verify(propertiesProvider, times(2)).create(null);
-        verify(actionProvider).execute(payload, ctxProps);
-        verify(assertion).execute(result, payload, null);
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    void shouldHandleNullPropertiesProvider() {
-        TestScenario<String, TestProps, Integer, String> scenario = mock(TestScenario.class);
-        PayloadProvider<String, String> payloadProvider = mock(PayloadProvider.class);
-        ActionProvider<String, TestProps, Integer> actionProvider = mock(ActionProvider.class);
-        AssertionsProvider<Integer, String, String> assertion = mock(AssertionsProvider.class);
-        StubsProvider<String, TestProps, String> stubsProvider = mock(StubsProvider.class);
-
-        String payload = "payload";
-        String ctx = "context";
-        Integer result = 42;
-
-        when(scenario.payloadProvider()).thenReturn(payloadProvider);
-        when(payloadProvider.create(null)).thenReturn(payload);
-
-        when(scenario.propertiesProvider()).thenReturn(null); // propertiesProvider is null
+        when(propertiesProvider.create(payloadCtx)).thenReturn(propertiesCtx);
 
         when(scenario.stubs()).thenReturn(stubsProvider);
-        when(stubsProvider.create(payload, null)).thenReturn(ctx);
+        when(stubsProvider.create(propertiesCtx)).thenReturn(stubsCtx);
 
         when(scenario.actionProvider()).thenReturn(actionProvider);
-        when(actionProvider.execute(payload, null)).thenReturn(result);
+        when(actionProvider.execute(stubsCtx.payload())).thenReturn(resultCtx);
 
         when(scenario.assertions()).thenReturn(List.of(assertion));
 
         executor.execute(scenario);
 
-        verify(payloadProvider).create(null);
-        verify(stubsProvider).create(payload, null);
-        verify(actionProvider).execute(payload, null);
-        verify(assertion).execute(result, payload, ctx);
+        verify(payloadProvider).create(any());
+        verify(propertiesProvider).create(payloadCtx);
+        verify(stubsProvider).create(propertiesCtx);
+        verify(actionProvider).execute(stubsCtx.payload());
+        verify(assertion).execute(resultCtx);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    void shouldHandleNullInitialPropsAndNonNullStubsReturningNullCtx() {
-        final var scenario = mock(TestScenario.class);
-        final var payloadProvider = mock(PayloadProvider.class);
-        final var propertiesProvider = mock(PropertiesProvider.class);
-        final var actionProvider = mock(ActionProvider.class);
-        final var assertion = mock(AssertionsProvider.class);
-        final var stubs = mock(StubsProvider.class);
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    void shouldThrowRuntimeExceptionIfContextCannotBeConstructed() {
+        TestScenario<String, DummyContext> scenario = mock(TestScenario.class);
 
-        final var payload = "payload";
-        final var result = 42;
+        class NoDefaultCtor implements TestScenarioContext<String> {
+            public NoDefaultCtor(String s) {}
 
-        when(scenario.payloadProvider()).thenReturn(payloadProvider);
-        when(payloadProvider.create(null)).thenReturn(payload);
-
-        when(scenario.propertiesProvider()).thenReturn(propertiesProvider);
-        when(propertiesProvider.create(null)).thenReturn(null); // initialProps is null
-        when(propertiesProvider.create(null)).thenReturn(null);
-
-        when(scenario.stubs()).thenReturn(stubs);
-        when(stubs.create(payload, null)).thenReturn(null); // stubs returns null ctx
-
-        when(scenario.actionProvider()).thenReturn(actionProvider);
-        when(actionProvider.execute(payload, null)).thenReturn(result);
-
-        when(scenario.assertions()).thenReturn(List.of(assertion));
-
-        executor.execute(scenario);
-
-        verify(payloadProvider).create(null);
-        verify(propertiesProvider, times(2)).create(null);
-        verify(stubs).create(payload, null);
-        verify(actionProvider).execute(payload, null);
-        verify(assertion).execute(result, payload, null);
-    }
-
-    record TestProps(String value) implements TestScenarioProperties {
-
-        @Override
-        @SuppressWarnings("unchecked")
-        public TestProps merge(TestScenarioProperties other) {
-            return (other instanceof TestProps) ? (TestProps) other : this;
+            @Override
+            public String payload() {
+                return null;
+            }
         }
+        when(scenario.contextClass()).thenReturn((Class) NoDefaultCtor.class);
+
+        assertThrows(RuntimeException.class, () -> executor.execute(scenario));
     }
 }

@@ -18,6 +18,6 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 @FunctionalInterface
-public interface ActionProvider<TPayload, TProps, TResult> {
-    TResult execute(TPayload payload, TProps props);
+public interface ActionProvider<TPayload, TContext extends TestScenarioContext<TPayload>> {
+    TContext execute(TPayload payload);
 }

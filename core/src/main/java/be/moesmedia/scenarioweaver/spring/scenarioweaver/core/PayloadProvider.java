@@ -18,6 +18,6 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 @FunctionalInterface
-public interface PayloadProvider<TInput, TPayload> {
-    TPayload create(TInput input);
+public interface PayloadProvider<TContext> {
+    TContext create(TContext context);
 }

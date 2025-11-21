@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.*;
 import java.util.List;
 
-public class HelloWorldTestScenario implements TestScenario<String, TestScenarioProperties, String, Void> {
+public class HelloWorldTestScenario implements TestScenario<String, TestScenarioContext, String, Void> {
     @Override
     public String description() {
         return "Hello World Test";
@@ -34,12 +34,12 @@ public class HelloWorldTestScenario implements TestScenario<String, TestScenario
     }
 
     @Override
-    public PropertiesProvider<TestScenarioProperties, Void> propertiesProvider() {
+    public PropertiesProvider<TestScenarioContext, Void> propertiesProvider() {
         return ctx -> null;
     }
 
     @Override
-    public StubsProvider<String, TestScenarioProperties, Void> stubs() {
+    public StubsProvider<String, TestScenarioContext, Void> stubs() {
         return (payload, props) -> null;
     }
 
@@ -49,7 +49,7 @@ public class HelloWorldTestScenario implements TestScenario<String, TestScenario
     }
 
     @Override
-    public ActionProvider<String, TestScenarioProperties, String> actionProvider() {
+    public ActionProvider<String, TestScenarioContext, String> actionProvider() {
         return (payload, props) -> payload;
     }
 }

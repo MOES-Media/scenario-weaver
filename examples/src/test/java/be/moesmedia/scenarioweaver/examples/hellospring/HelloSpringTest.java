@@ -40,8 +40,7 @@ class HelloSpringTest {
 
     @Test
     void test_hello_spring(
-            @InjectTestScenario("helloSpring")
-                    TestScenario<String, TestScenarioProperties, String, Void> testScenario) {
+            @InjectTestScenario("helloSpring") TestScenario<String, TestScenarioContext, String, Void> testScenario) {
         executor.execute(testScenario);
     }
 
@@ -49,12 +48,12 @@ class HelloSpringTest {
     @EnableTestScenarioWeaving(basePackages = "be.moesmedia.scenarioweaver.examples.hellospring")
     static class MyTestConfig {
         @Bean
-        public StubsProvider<Void, TestScenarioProperties, Void> myStubsProvider() {
+        public StubsProvider<Void, TestScenarioContext, Void> myStubsProvider() {
             return (payload, properties) -> null;
         }
 
         @Bean
-        public PropertiesProvider<TestScenarioProperties, Void> myPropertiesProvider() {
+        public PropertiesProvider<TestScenarioContext, Void> myPropertiesProvider() {
             return props -> null;
         }
 

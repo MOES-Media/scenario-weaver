@@ -17,13 +17,16 @@
  */
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-class TestScenarioPropertiesTest {
+class TestScenarioContextTest {
 
-    static class SimpleProps implements TestScenarioProperties {
+    public static class SimpleProps implements TestScenarioContext {
         public String a;
         public String b;
 
@@ -33,14 +36,20 @@ class TestScenarioPropertiesTest {
             this.a = a;
             this.b = b;
         }
+
+        @Override
+        public Object payload() {
+            return null;
+        }
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void mergePrefersOriginalIfNotNull() {
         final var original = new SimpleProps("foo", null);
         final var other = new SimpleProps("bar", "baz");
 
-        final var merged = original.merge(other);
+        final var merged = (SimpleProps) original.merge(other);
 
         assertEquals("foo", merged.a);
         assertEquals("baz", merged.b);
@@ -51,7 +60,7 @@ class TestScenarioPropertiesTest {
         final var original = new SimpleProps(null, null);
         final var other = new SimpleProps("bar", "baz");
 
-        final var merged = original.merge(other);
+        final var merged = (SimpleProps) original.merge(other);
 
         assertEquals("bar", merged.a);
         assertEquals("baz", merged.b);
@@ -62,7 +71,7 @@ class TestScenarioPropertiesTest {
         final var original = new SimpleProps(null, null);
         final var other = new SimpleProps(null, null);
 
-        final var merged = original.merge(other);
+        final var merged = (SimpleProps) original.merge(other);
 
         assertNull(merged.a);
         assertNull(merged.b);
@@ -70,11 +79,16 @@ class TestScenarioPropertiesTest {
 
     @Test
     void mergeThrowsIfNoDefaultConstructor() {
-        class NoDefaultCtor implements TestScenarioProperties {
+        class NoDefaultCtor implements TestScenarioContext {
             public final String x;
 
             public NoDefaultCtor(String x) {
                 this.x = x;
+            }
+
+            @Override
+            public Object payload() {
+                return null;
             }
         }
         final var original = new NoDefaultCtor("foo");

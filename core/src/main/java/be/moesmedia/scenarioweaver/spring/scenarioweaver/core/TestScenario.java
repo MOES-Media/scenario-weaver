@@ -19,16 +19,23 @@ package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 import java.util.List;
 
-public interface TestScenario<TPayload, TProps extends TestScenarioProperties, TResult, TContext> {
+public interface TestScenario<TPayload, TContext extends TestScenarioContext<TPayload>> {
     String description();
 
-    PayloadProvider<TContext, TPayload> payloadProvider();
+    PayloadProvider<TContext> payloadProvider();
 
-    PropertiesProvider<TProps, TContext> propertiesProvider();
+    PropertiesProvider<TContext> propertiesProvider();
 
-    StubsProvider<TPayload, TProps, TContext> stubs();
+    StubsProvider<TContext> stubs();
 
-    List<AssertionsProvider<TResult, TPayload, TContext>> assertions();
+    List<AssertionsProvider<TContext>> assertions();
 
-    ActionProvider<TPayload, TProps, TResult> actionProvider();
+    ActionProvider<TPayload, TContext> actionProvider();
+
+    TContext context();
+
+    @SuppressWarnings("unchecked")
+    default Class<TContext> contextClass() {
+        return (Class<TContext>) context().getClass();
+    }
 }

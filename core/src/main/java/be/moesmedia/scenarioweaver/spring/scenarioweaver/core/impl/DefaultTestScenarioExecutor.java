@@ -17,46 +17,35 @@
  */
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl;
 
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.ActionProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.AssertionsProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.PropertiesProvider;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioContext;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
-import java.util.List;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioPipe;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
 
     @Override
-    public <TPayload, TProps extends TestScenarioProperties, TResult, TContext> void execute(
-            TestScenario<TPayload, TProps, TResult, TContext> testScenario) {
+    public <TPayload, TContext extends TestScenarioContext<TPayload>> void execute(
+            TestScenario<TPayload, TContext> testScenario) {
         if (Objects.isNull(testScenario)) {
             throw new IllegalArgumentException("TestScenario is null, we cannot execute what is not there...");
         }
 
-        final PayloadProvider<TContext, TPayload> payloadProvider = testScenario.payloadProvider();
-        final PropertiesProvider<TProps, TContext> propertiesProvider = testScenario.propertiesProvider();
-        final StubsProvider<TPayload, TProps, TContext> stubsProvider = testScenario.stubs();
-        final ActionProvider<TPayload, TProps, TResult> actionProvider = testScenario.actionProvider();
-        final List<AssertionsProvider<TResult, TPayload, TContext>> assertions = testScenario.assertions();
-
-        final TPayload payload = payloadProvider.create(null);
-        final TProps initialProps = Objects.nonNull(propertiesProvider) ? propertiesProvider.create(null) : null;
-        final TContext ctx = Objects.nonNull(stubsProvider) ? stubsProvider.create(payload, initialProps) : null;
-
-        final TProps propsWithCtx;
-        if (Objects.isNull(initialProps)) {
-            propsWithCtx = Objects.nonNull(propertiesProvider) ? propertiesProvider.create(ctx) : null;
-        } else {
-            final TProps ctxProps = propertiesProvider.create(ctx);
-            propsWithCtx = initialProps.merge(ctxProps);
+        try {
+            TestScenarioPipe.of(
+                            testScenario.contextClass().getDeclaredConstructor().newInstance())
+                    .pipe(ctx -> testScenario.payloadProvider().create(ctx))
+                    .pipe(ctx -> testScenario.propertiesProvider().create(ctx))
+                    .pipe(ctx -> testScenario.stubs().create(ctx))
+                    .pipe(ctx -> testScenario.actionProvider().execute(ctx.payload()))
+                    .execute(ctx -> testScenario.assertions().forEach(assertion -> assertion.execute(ctx)));
+        } catch (NoSuchMethodException
+                | InvocationTargetException
+                | InstantiationException
+                | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
-
-        final TResult result = actionProvider.execute(payload, propsWithCtx);
-
-        assertions.forEach(assertion -> assertion.execute(result, payload, ctx));
     }
 }

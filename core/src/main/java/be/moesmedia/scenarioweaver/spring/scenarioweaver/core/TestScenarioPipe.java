@@ -17,7 +17,20 @@
  */
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
-@FunctionalInterface
-public interface StubsProvider<TContext> {
-    TContext create(TContext context);
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+public record TestScenarioPipe<T>(T value) {
+
+    public static <T> TestScenarioPipe<T> of(T value) {
+        return new TestScenarioPipe<>(value);
+    }
+
+    public <R> TestScenarioPipe<R> pipe(Function<? super T, ? extends R> mapper) {
+        return new TestScenarioPipe<>(mapper.apply(value));
+    }
+
+    public void execute(Consumer<? super T> runner) {
+        runner.accept(value);
+    }
 }

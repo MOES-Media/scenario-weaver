@@ -18,6 +18,6 @@
 package be.moesmedia.scenarioweaver.spring.scenarioweaver.core;
 
 @FunctionalInterface
-public interface AssertionsProvider<TActual, TExpected, TContext> {
-    void execute(TActual expected, TExpected actual, TContext context);
+public interface AssertionsProvider<TContext> {
+    void execute(TContext context);
 }

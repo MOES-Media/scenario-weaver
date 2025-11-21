@@ -21,8 +21,8 @@ import be.moesmedia.scenarioweaver.junit.InjectTestScenario;
 import be.moesmedia.scenarioweaver.junit.TestScenarioSource;
 import be.moesmedia.scenarioweaver.junit.TestScenarioWeaverExtension;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioContext;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioExecutor;
-import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.TestScenarioProperties;
 import be.moesmedia.scenarioweaver.spring.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,8 +38,7 @@ class HelloWorldTest {
 
     @Test
     void test_hello_world(
-            @InjectTestScenario("hello-world")
-                    TestScenario<String, TestScenarioProperties, String, Void> testScenario) {
+            @InjectTestScenario("hello-world") TestScenario<String, TestScenarioContext, String, Void> testScenario) {
         testScenarioExecutor.execute(testScenario);
     }
 }
