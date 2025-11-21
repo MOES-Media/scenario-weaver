@@ -17,23 +17,28 @@
  */
 package be.moesmedia.scenarioweaver.examples.hellospring;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import be.moesmedia.scenarioweaver.core.ActionProvider;
 import be.moesmedia.scenarioweaver.core.PayloadProvider;
 import be.moesmedia.scenarioweaver.core.PropertiesProvider;
 import be.moesmedia.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioBuilder;
 import be.moesmedia.scenarioweaver.core.TestScenarioContext;
 import be.moesmedia.scenarioweaver.core.TestScenarioExecutor;
 import be.moesmedia.scenarioweaver.core.impl.DefaultTestScenarioExecutor;
 import be.moesmedia.scenarioweaver.spring.EnableTestScenarioWeaving;
 import be.moesmedia.scenarioweaver.spring.InjectTestScenario;
 import be.moesmedia.scenarioweaver.spring.SpringTestScenarioWeaverExtension;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 
 @SpringBootTest(
         classes = {HelloSpringApplication.class, HelloSpringTest.MyTestConfig.class},
@@ -45,7 +50,14 @@ class HelloSpringTest {
 
     @Test
     void test_hello_spring(
-            @InjectTestScenario("helloSpring") TestScenario<String, ? extends TestScenarioContext> testScenario) {
+            @InjectTestScenario("helloSpring") TestScenario<String, ? extends TestScenarioContext<?>> testScenario) {
+        executor.execute(testScenario);
+    }
+
+    @Test
+    void test_hello_spring_builder(
+            @InjectTestScenario("helloSpringBuilder")
+                    TestScenario<String, ? extends TestScenarioContext<?>> testScenario) {
         executor.execute(testScenario);
     }
 
@@ -70,6 +82,18 @@ class HelloSpringTest {
         @Bean
         public ActionProvider<Void, HelloSpringContext> myActionProvider(TestRestTemplate testRestTemplate) {
             return (ignored, ctx) -> ctx.response(testRestTemplate.getForEntity("/hello-spring", String.class));
+        }
+
+        @Bean
+        public TestScenario<Void, HelloSpringContext> helloSpringBuilder(
+                ActionProvider<Void, HelloSpringContext> actionProvider) {
+            return TestScenarioBuilder.withAction(actionProvider)
+                    .assertionsProviders(List.of(ctx -> {
+                        assertEquals(HttpStatus.OK, ctx.response().getStatusCode());
+                        assertEquals("Hello Spring!", ctx.response().getBody());
+                    }))
+                    .context(new HelloSpringContext())
+                    .build();
         }
     }
 }

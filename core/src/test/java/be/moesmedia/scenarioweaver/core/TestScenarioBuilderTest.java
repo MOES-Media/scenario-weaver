@@ -17,7 +17,11 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -52,30 +56,30 @@ class TestScenarioBuilderTest {
 
     @Test
     void builderStaticMethodCreatesInstance() {
-        var builder = TestScenarioBuilder.<String, DummyContext>builder();
+        final var builder = TestScenarioBuilder.<String, DummyContext>builder();
         assertNotNull(builder);
     }
 
     @Test
     void withActionStaticMethodSetsActionProvider() {
-        var actionProvider = new DummyActionProvider();
-        var builder = TestScenarioBuilder.withAction(actionProvider);
+        final var actionProvider = new DummyActionProvider();
+        final var builder = TestScenarioBuilder.withAction(actionProvider);
         assertNotNull(builder);
         builder.assertionsProviders(List.of(new DummyAssertionsProvider()));
-        var scenario = builder.build();
+        final var scenario = builder.build();
         assertSame(actionProvider, scenario.actionProvider());
     }
 
     @Test
     void fluentSettersSetFields() {
-        var builder = TestScenarioBuilder.<String, DummyContext>builder();
-        var actionProvider = new DummyActionProvider();
-        var stubsProvider = (StubsProvider<DummyContext>) ctx -> ctx;
-        var payloadProvider = (PayloadProvider<DummyContext>) ctx -> ctx;
-        var propertiesProvider = (PropertiesProvider<DummyContext>) ctx -> ctx;
-        var assertionsProvider = new DummyAssertionsProvider();
-        var context = new DummyContext().payload("ctx");
-        var description = "desc";
+        final var builder = TestScenarioBuilder.<String, DummyContext>builder();
+        final var actionProvider = new DummyActionProvider();
+        final var stubsProvider = (StubsProvider<DummyContext>) ctx -> ctx;
+        final var payloadProvider = (PayloadProvider<DummyContext>) ctx -> ctx;
+        final var propertiesProvider = (PropertiesProvider<DummyContext>) ctx -> ctx;
+        final var assertionsProvider = new DummyAssertionsProvider();
+        final var context = new DummyContext().payload("ctx");
+        final var description = "desc";
 
         builder.actionProvider(actionProvider)
                 .stubs(stubsProvider)
@@ -85,7 +89,7 @@ class TestScenarioBuilderTest {
                 .context(context)
                 .description(description);
 
-        var scenario = builder.build();
+        final var scenario = builder.build();
         assertSame(actionProvider, scenario.actionProvider());
         assertSame(stubsProvider, scenario.stubs());
         assertSame(payloadProvider, scenario.payloadProvider());
@@ -97,25 +101,50 @@ class TestScenarioBuilderTest {
 
     @Test
     void buildThrowsIfNoActionProvider() {
-        var builder = TestScenarioBuilder.<String, DummyContext>builder()
+        final var builder = TestScenarioBuilder.<String, DummyContext>builder()
                 .assertionsProviders(List.of(new DummyAssertionsProvider()));
-        IllegalStateException ex = assertThrows(IllegalStateException.class, builder::build);
+        final var ex = assertThrows(IllegalStateException.class, builder::build);
         assertTrue(ex.getMessage().contains("action provider"));
     }
 
     @Test
     void buildThrowsIfNoAssertions() {
-        var builder = TestScenarioBuilder.<String, DummyContext>builder().actionProvider(new DummyActionProvider());
-        IllegalStateException ex = assertThrows(IllegalStateException.class, builder::build);
+        final var builder =
+                TestScenarioBuilder.<String, DummyContext>builder().actionProvider(new DummyActionProvider());
+        final var ex = assertThrows(IllegalStateException.class, builder::build);
+        assertTrue(ex.getMessage().contains("assertions"));
+    }
+
+    @Test
+    void buildThrowsIfNullAssertions() {
+        final var builder =
+                TestScenarioBuilder.withAction(new DummyActionProvider()).assertionsProviders(null);
+        final var ex = assertThrows(IllegalStateException.class, builder::build);
         assertTrue(ex.getMessage().contains("assertions"));
     }
 
     @Test
     void buildThrowsIfAssertionsListIsEmpty() {
-        var builder = TestScenarioBuilder.<String, DummyContext>builder()
+        final var builder = TestScenarioBuilder.<String, DummyContext>builder()
                 .actionProvider(new DummyActionProvider())
                 .assertionsProviders(List.of());
-        IllegalStateException ex = assertThrows(IllegalStateException.class, builder::build);
+        final var ex = assertThrows(IllegalStateException.class, builder::build);
         assertTrue(ex.getMessage().contains("assertions"));
+    }
+
+    @Test
+    void defaultProvidersAreIdentityFunctions() {
+        final var builder = TestScenarioBuilder.<String, DummyContext>builder()
+                .actionProvider(new DummyActionProvider())
+                .assertionsProviders(List.of(new DummyAssertionsProvider()))
+                .context(new DummyContext().payload("default"));
+
+        final var scenario = builder.build();
+
+        final var ctx = new DummyContext().payload("test");
+
+        assertSame(ctx, scenario.stubs().create(ctx));
+        assertSame(ctx, scenario.payloadProvider().create(ctx));
+        assertSame(ctx, scenario.propertiesProvider().create(ctx));
     }
 }

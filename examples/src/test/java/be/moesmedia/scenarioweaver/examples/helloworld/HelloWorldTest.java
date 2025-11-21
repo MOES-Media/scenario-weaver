@@ -39,4 +39,10 @@ class HelloWorldTest {
     void test_hello_world(@InjectTestScenario("hello-world") TestScenario<String, HelloWorldContext> testScenario) {
         testScenarioExecutor.execute(testScenario);
     }
+
+    @Test
+    void test_hello_world_builder(
+            @InjectTestScenario("hello-world-builder") TestScenario<String, HelloWorldContext> testScenario) {
+        testScenarioExecutor.execute(testScenario);
+    }
 }

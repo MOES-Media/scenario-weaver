@@ -17,19 +17,18 @@
  */
 package be.moesmedia.scenarioweaver.examples.helloworld;
 
-import be.moesmedia.scenarioweaver.core.TestScenario;
-import be.moesmedia.scenarioweaver.core.TestScenarioContext;
-import be.moesmedia.scenarioweaver.junit.TestScenarioProvider;
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HelloWorldTestScenarioProvider implements TestScenarioProvider {
-    @Override
-    public Optional<TestScenario<?, ? extends TestScenarioContext<?>>> getTestScenario(String name) {
-        if ("hello-world".equals(name)) {
-            return Optional.of(new HelloWorldTestScenario());
-        } else if ("hello-world-builder".equals(name)) {
-            return Optional.of(HelloWorldTestScenarioWithBuilder.testScenario());
-        }
-        return Optional.empty();
+import be.moesmedia.scenarioweaver.core.TestScenario;
+import be.moesmedia.scenarioweaver.core.TestScenarioBuilder;
+import java.util.List;
+
+public class HelloWorldTestScenarioWithBuilder {
+
+    static TestScenario<String, HelloWorldContext> testScenario() {
+        return TestScenarioBuilder.<String, HelloWorldContext>withAction((payload, ctx) -> ctx.actual("Hello World!"))
+                .assertionsProviders(List.of(ctx -> assertEquals(ctx.expected(), ctx.actual())))
+                .context(new HelloWorldContext())
+                .build();
     }
 }
