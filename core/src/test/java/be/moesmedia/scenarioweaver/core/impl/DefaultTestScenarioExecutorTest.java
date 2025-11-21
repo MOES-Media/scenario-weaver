@@ -66,12 +66,12 @@ class DefaultTestScenarioExecutorTest {
     @Test
     @SuppressWarnings("unchecked")
     void shouldExecuteScenarioWithAllProviders() throws Exception {
-        TestScenario<String, DummyContext> scenario = mock(TestScenario.class);
-        PayloadProvider<DummyContext> payloadProvider = mock(PayloadProvider.class);
-        PropertiesProvider<DummyContext> propertiesProvider = mock(PropertiesProvider.class);
-        StubsProvider<DummyContext> stubsProvider = mock(StubsProvider.class);
-        ActionProvider<String, DummyContext> actionProvider = mock(ActionProvider.class);
-        AssertionsProvider<DummyContext> assertion = mock(AssertionsProvider.class);
+        final TestScenario<String, DummyContext> scenario = mock(TestScenario.class);
+        final PayloadProvider<DummyContext> payloadProvider = mock(PayloadProvider.class);
+        final PropertiesProvider<DummyContext> propertiesProvider = mock(PropertiesProvider.class);
+        final StubsProvider<DummyContext> stubsProvider = mock(StubsProvider.class);
+        final ActionProvider<String, DummyContext> actionProvider = mock(ActionProvider.class);
+        final AssertionsProvider<DummyContext> assertion = mock(AssertionsProvider.class);
 
         DummyContext payloadCtx = new DummyContext("payload");
         DummyContext propertiesCtx = new DummyContext("props");
