@@ -3,7 +3,8 @@
     Authors: Robert Fink, Brian Worth, Merrick Zoubeiri, and many other contributors. Based in part on http://checkstyle.sourceforge.net/google_style.html
     Please keep checks alphabetized with one exception: "relaxed" checks are grouped together at the bottom for easier disabling.
     Check-specific comments reference documents internal to Palantir and can be safely ignored or removed.
- --><!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN" "https://checkstyle.org/dtds/configuration_1_3.dtd">
+ --><!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
 <module name="Checker">
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="error"/>
@@ -14,11 +15,13 @@
     </module>
     <module name="RegexpSingleline"> <!-- No reference needed as this is evident. -->
         <property name="format" value="&lt;&lt;&lt;&lt;&lt;&lt;&lt;"/>
-        <property name="message" value="Found (&lt;&lt;&lt;&lt;&lt;&lt;&lt;), so it looks like you had a merge conflict that compiles. Please fix it."/>
+        <property name="message"
+                  value="Found (&lt;&lt;&lt;&lt;&lt;&lt;&lt;), so it looks like you had a merge conflict that compiles. Please fix it."/>
     </module>
     <module name="RegexpSingleline"> <!-- No reference needed as this is evident. -->
         <property name="format" value="&gt;&gt;&gt;&gt;&gt;&gt;&gt;"/>
-        <property name="message" value="Found (&gt;&gt;&gt;&gt;&gt;&gt;&gt;), so it looks like you had a merge conflict that compiles. Please fix it."/>
+        <property name="message"
+                  value="Found (&gt;&gt;&gt;&gt;&gt;&gt;&gt;), so it looks like you had a merge conflict that compiles. Please fix it."/>
     </module>
     <module name="RegexpSingleline">
         <property name="format" value="\s+$"/>
@@ -82,10 +85,11 @@
         </module>
         <module name="AvoidStarImport"/> <!-- Java Style Guide: No wildcard imports -->
         <module name="AvoidStaticImport"> <!-- Java Style Guide: No static imports -->
-            <property name="excludes" value="com.google.common.base.Preconditions.*, com.palantir.logsafe.Preconditions.*, java.util.Collections.*, java.util.stream.Collectors.*, org.apache.commons.lang3.Validate.*, org.assertj.core.api.Assertions.*, org.mockito.Mockito.*"/>
+            <property name="excludes"
+                      value="com.google.common.base.Preconditions.*, com.palantir.logsafe.Preconditions.*, java.util.Collections.*, java.util.stream.Collectors.*, org.apache.commons.lang3.Validate.*, org.assertj.core.api.Assertions.*, org.mockito.Mockito.*"/>
         </module>
         <module name="ClassTypeParameterName"> <!-- Java Style Guide: Type variable names -->
-            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="^[A-Z][A-Za-z0-9]*$"/>
             <message key="name.invalidPattern" value="Class type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="CovariantEquals"/> <!-- Java Coding Guidelines: Override ``Object#equals`` consistently -->
@@ -98,7 +102,8 @@
         </module>
         <module name="EmptyForInitializerPad"/> <!-- Java Style Guide: Horizontal whitespace -->
         <module name="EmptyLineSeparator"> <!-- Java Style Guide: Source file structure -->
-            <property name="tokens" value="IMPORT, CLASS_DEF, ENUM_DEF, INTERFACE_DEF, CTOR_DEF, STATIC_INIT, INSTANCE_INIT, VARIABLE_DEF"/>
+            <property name="tokens"
+                      value="IMPORT, CLASS_DEF, ENUM_DEF, INTERFACE_DEF, CTOR_DEF, STATIC_INIT, INSTANCE_INIT, VARIABLE_DEF"/>
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
         </module>
         <module name="EmptyStatement"/> <!-- Java Style Guide: One statement per line -->
@@ -118,15 +123,18 @@
         <module name="HideUtilityClassConstructor"/> <!-- Java Coding Guidelines: Private constructors -->
         <module name="IllegalImport"> <!-- Java Coding Guidelines: Use JUnit 4-style test classes and assertions -->
             <property name="illegalPkgs" value="junit.framework"/>
-            <message key="import.illegal" value="Use JUnit 4-style (org.junit.*) test classes and assertions instead of JUnit 3 (junit.framework.*)."/>
+            <message key="import.illegal"
+                     value="Use JUnit 4-style (org.junit.*) test classes and assertions instead of JUnit 3 (junit.framework.*)."/>
         </module>
         <module name="IllegalImport"> <!-- Only relevant for pre-Java 11 because javafx is gone completely in Java 11 -->
             <property name="id" value="BanJavafx"/>
             <property name="illegalPkgs" value="javafx"/>
-            <message key="import.illegal" value="Must not import javafx classes because some OpenJDK builds do not include javafx."/>
+            <message key="import.illegal"
+                     value="Must not import javafx classes because some OpenJDK builds do not include javafx."/>
         </module>
         <module name="IllegalImport"> <!-- Java Coding Guidelines: Import the canonical package -->
-            <property name="illegalPkgs" value="org.elasticsearch.common.base, com.clearspring.analytics.util, org.spark_project.guava"/>
+            <property name="illegalPkgs"
+                      value="org.elasticsearch.common.base, com.clearspring.analytics.util, org.spark_project.guava"/>
             <message key="import.illegal" value="Must not import repackaged classes."/>
         </module>
         <module name="IllegalImport"> <!-- Java Coding Guidelines: Import the canonical package -->
@@ -138,11 +146,13 @@
         <module name="IllegalImport">
             <property name="illegalPkgs" value="^org\.gradle\.(internal|.*\.internal)"/>
             <property name="regexp" value="true"/>
-            <message key="import.illegal" value="Do not rely on gradle internal classes as these may change in minor releases - use org.gradle.api versions instead."/>
+            <message key="import.illegal"
+                     value="Do not rely on gradle internal classes as these may change in minor releases - use org.gradle.api versions instead."/>
         </module>
         <module name="IllegalImport">
             <property name="illegalPkgs" value="sun"/>
-            <message key="import.illegal" value="Must not use Oracle's Java implementation details. See http://www.oracle.com/technetwork/java/faq-sun-packages-142232.html ."/>
+            <message key="import.illegal"
+                     value="Must not use Oracle's Java implementation details. See http://www.oracle.com/technetwork/java/faq-sun-packages-142232.html ."/>
         </module>
         <module name="IllegalImport">
             <property name="illegalPkgs" value="org.apache.commons.lang"/>
@@ -154,7 +164,8 @@
         </module>
         <module name="IllegalImport">
             <property name="id" value="BanLoggingImplementations"/>
-            <property name="illegalPkgs" value="org.apache.log4j, org.apache.logging.log4j, java.util.logging, ch.qos.logback"/>
+            <property name="illegalPkgs"
+                      value="org.apache.log4j, org.apache.logging.log4j, java.util.logging, ch.qos.logback"/>
             <message key="import.illegal" value="Use SLF4J instead of a logging framework directly."/>
         </module>
         <module name="IllegalImport">
@@ -173,17 +184,22 @@
         <module name="IllegalThrows"/> <!-- Java Coding Guidelines: Throwable, Error, RuntimeException: Not declared -->
         <module name="IllegalTokenText"> <!-- Java Style Guide: Special escape sequences -->
             <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
-            <property name="format" value="\\u00(08|09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
+            <property name="format"
+                      value="\\u00(08|09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
             <property name="message" value="Avoid using corresponding octal or Unicode escape."/>
         </module>
         <module name="IllegalType"> <!-- Java Coding Guide: Limit coupling on concrete classes -->
-            <property name="illegalClassNames" value="java.util.ArrayList, java.util.HashSet, java.util.HashMap, java.util.LinkedList, java.util.LinkedHashMap, java.util.LinkedHashSet, java.util.TreeSet, java.util.TreeMap, com.google.common.collect.ArrayListMultimap, com.google.common.collect.ForwardingListMultimap, com.google.common.collect.ForwardingMultimap, com.google.common.collect.ForwardingSetMultimap, com.google.common.collect.ForwardingSortedSetMultimap, com.google.common.collect.HashMultimap, com.google.common.collect.LinkedHashMultimap, com.google.common.collect.LinkedListMultimap, com.google.common.collect.TreeMultimap"/>
-            <message key="illegal.type" value="Usage of type ''{0}'' is not allowed to limit coupling on concrete classes. For example, prefer Multimap over HashMultimap, List over ArrayList, and Set over TreeSet."/>
+            <property name="illegalClassNames"
+                      value="java.util.ArrayList, java.util.HashSet, java.util.HashMap, java.util.LinkedList, java.util.LinkedHashMap, java.util.LinkedHashSet, java.util.TreeSet, java.util.TreeMap, com.google.common.collect.ArrayListMultimap, com.google.common.collect.ForwardingListMultimap, com.google.common.collect.ForwardingMultimap, com.google.common.collect.ForwardingSetMultimap, com.google.common.collect.ForwardingSortedSetMultimap, com.google.common.collect.HashMultimap, com.google.common.collect.LinkedHashMultimap, com.google.common.collect.LinkedListMultimap, com.google.common.collect.TreeMultimap"/>
+            <message key="illegal.type"
+                     value="Usage of type ''{0}'' is not allowed to limit coupling on concrete classes. For example, prefer Multimap over HashMultimap, List over ArrayList, and Set over TreeSet."/>
         </module>
         <module name="IllegalType">
             <property name="id" value="BanGuavaCaches"/>
-            <property name="illegalClassNames" value="com.google.common.cache.CacheBuilder, com.google.common.cache.Cache, com.google.common.cache.LoadingCache"/>
-            <message key="illegal.type" value="Do not use Guava caches, they are outperformed by and harder to use than Caffeine caches"/>
+            <property name="illegalClassNames"
+                      value="com.google.common.cache.CacheBuilder, com.google.common.cache.Cache, com.google.common.cache.LoadingCache"/>
+            <message key="illegal.type"
+                     value="Do not use Guava caches, they are outperformed by and harder to use than Caffeine caches"/>
         </module>
         <module name="ImportOrder"> <!-- Java Style Guide: Ordering and spacing -->
             <property name="groups" value="/.*/"/>
@@ -223,7 +239,8 @@
         <module name="OneTopLevelClass"/> <!-- Java Style Guide: Exactly one top-level class declaration -->
         <module name="OperatorWrap"> <!-- Java Style Guide: Where to break -->
             <property name="option" value="NL"/>
-            <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
+            <property name="tokens"
+                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
         </module>
         <module name="OuterTypeFilename"/> <!-- Java Style Guide: File name -->
         <module name="OverloadMethodsDeclarationOrder"/> <!-- Java Style Guide: Overloads: never split -->
@@ -251,7 +268,8 @@
         </module>
         <module name="RegexpSinglelineJava"> <!-- Java Coding Guidelines: Use appropriate assertion methods -->
             <property name="format" value="assertFalse\(.*[!=]="/>
-            <property name="message" value="Use better assertion method(s): assertEquals(), assertNull(), assertSame(), etc."/>
+            <property name="message"
+                      value="Use better assertion method(s): assertEquals(), assertNull(), assertSame(), etc."/>
         </module>
         <module name="RegexpSinglelineJava"> <!-- Java Coding Guidelines: Use appropriate assertion methods -->
             <property name="format" value="assertTrue\(!"/>
@@ -259,7 +277,8 @@
         </module>
         <module name="RegexpSinglelineJava"> <!-- Java Coding Guidelines: Use appropriate assertion methods -->
             <property name="format" value="assertTrue\(.*[!=]="/>
-            <property name="message" value="Use better assertion method(s): assertEquals(), assertNull(), assertSame(), etc."/>
+            <property name="message"
+                      value="Use better assertion method(s): assertEquals(), assertNull(), assertSame(), etc."/>
         </module>
         <module name="RegexpSinglelineJava"> <!-- Java Coding Guidelines: Avoid Generics clutter where possible -->
             <property name="format" value="Collections\.EMPTY_LIST"/>
@@ -280,11 +299,13 @@
         <module name="RegexpSinglelineJava">
             <property name="id" value="BanJacksonFindAndRegisterModulesMethod"/>
             <property name="format" value="findAndRegisterModules"/>
-            <property name="message" value="Use ObjectMapper#registerModule(&lt;yourModule&gt;) explicitly. ObjectMapper#findAndRegisterModules() is dangerous because it will change behaviour depending on which modules are on your classpath (including transitive dependencies)."/>
+            <property name="message"
+                      value="Use ObjectMapper#registerModule(&lt;yourModule&gt;) explicitly. ObjectMapper#findAndRegisterModules() is dangerous because it will change behaviour depending on which modules are on your classpath (including transitive dependencies)."/>
         </module>
         <module name="RegexpSinglelineJava"> <!-- Java Coding Guidelines: Use appropriate assertion methods -->
             <property name="format" value="CoreMatchers\.notNull"/>
-            <property name="message" value="Use better assertion method(s): Assert.assertEquals(), assertNull(), assertSame(), etc."/>
+            <property name="message"
+                      value="Use better assertion method(s): Assert.assertEquals(), assertNull(), assertSame(), etc."/>
         </module>
         <module name="RegexpSinglelineJava"> <!-- Java Coding Guidelines: Avoid Generics clutter where possible -->
             <property name="format" value="ImmutableList\.Builder.*new ImmutableList\.Builder"/>
@@ -327,13 +348,15 @@
         <module name="RegexpSinglelineJava">
             <property name="id" value="BanSystemOut"/>
             <property name="format" value="System\.out\."/>
-            <property name="message" value="Logging with System.out is not allowed because it has no metadata and can't be configured at runtime. Please use an SLF4J logger instead, e.g. log.info(&quot;Message&quot;)."/>
+            <property name="message"
+                      value="Logging with System.out is not allowed because it has no metadata and can't be configured at runtime. Please use an SLF4J logger instead, e.g. log.info(&quot;Message&quot;)."/>
             <property name="ignoreComments" value="true"/>
         </module>
         <module name="RegexpSinglelineJava">
             <property name="id" value="BanSystemErr"/>
             <property name="format" value="System\.err\."/>
-            <property name="message" value="Logging with System.err is not allowed because it has no metadata and can't be configured at runtime. Please use an SLF4J logger instead, e.g. log.info(&quot;Message&quot;)."/>
+            <property name="message"
+                      value="Logging with System.err is not allowed because it has no metadata and can't be configured at runtime. Please use an SLF4J logger instead, e.g. log.info(&quot;Message&quot;)."/>
             <property name="ignoreComments" value="true"/>
         </module>
         <module name="RegexpSinglelineJava">
@@ -346,7 +369,8 @@
         </module>
         <module name="RegexpSinglelineJava">
             <property name="format" value="\bIOUtils\.toString\("/>
-            <property name="message" value="Prefer Guava''s [CharStreams,Files,Resources].toString to avoid charset/stream closing issues."/>
+            <property name="message"
+                      value="Prefer Guava''s [CharStreams,Files,Resources].toString to avoid charset/stream closing issues."/>
         </module>
         <module name="RegexpSinglelineJava">
             <property name="format" value="\/\/TODO|\/\/ TODO(?!\([^()\s]+\): )"/>
@@ -354,12 +378,15 @@
             <property name="ignoreCase" value="true"/>
         </module>
         <module name="RegexpSinglelineJava">
-            <property name="format" value="(void setUp\(\))|(void setup\(\))|(void setupStatic\(\))|(void setUpStatic\(\))|(void beforeTest\(\))|(void teardown\(\))|(void tearDown\(\))|(void beforeStatic\(\))|(void afterStatic\(\))"/>
-            <property name="message" value="Test setup/teardown methods are called before(), beforeClass(), after(), afterClass(), but not setUp, teardown, etc."/>
+            <property name="format"
+                      value="(void setUp\(\))|(void setup\(\))|(void setupStatic\(\))|(void setUpStatic\(\))|(void beforeTest\(\))|(void teardown\(\))|(void tearDown\(\))|(void beforeStatic\(\))|(void afterStatic\(\))"/>
+            <property name="message"
+                      value="Test setup/teardown methods are called before(), beforeClass(), after(), afterClass(), but not setUp, teardown, etc."/>
         </module>
         <module name="RightCurly"> <!-- Java Style Guide: Nonempty blocks: K & R style -->
             <property name="option" value="same"/>
-            <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
+            <property name="tokens"
+                      value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
         </module>
         <module name="RightCurly"> <!-- Java Style Guide: Nonempty blocks: K & R style -->
             <property name="option" value="alone"/>
@@ -404,7 +431,8 @@
             <property name="switchBlockAsSingleDecisionPoint" value="true"/>
         </module>
         <module name="DesignForExtension"> <!-- Java Coding Guidelines: Design for extension -->
-            <property name="ignoredAnnotations" value="ParameterizedTest, Test, Before, BeforeEach, After, AfterEach, BeforeClass, BeforeAll, AfterClass, AfterAll"/>
+            <property name="ignoredAnnotations"
+                      value="ParameterizedTest, Test, Before, BeforeEach, After, AfterEach, BeforeClass, BeforeAll, AfterClass, AfterAll"/>
         </module>
         <module name="JavadocMethod"> <!-- Java Style Guide: Where Javadoc is used -->
             <property name="accessModifiers" value="public"/>
