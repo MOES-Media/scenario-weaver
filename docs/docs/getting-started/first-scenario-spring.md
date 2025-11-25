@@ -33,7 +33,7 @@ Annotate your scenario class with `@ConfigureTestScenario` and provide the requi
 @ConfigureTestScenario(
     name = "helloSpring",
     stubsProvider = "myStubsProvider",
-    propertiesProvider = "myPropertiesProvider",
+    contextProvider = "myPropertiesProvider",
     payloadProvider = "myPayloadProvider",
     actionProvider = "myActionProvider",
     description = "Hello Spring Test"

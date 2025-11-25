@@ -76,7 +76,7 @@ class TestScenarioBuilderTest {
         final var actionProvider = new DummyActionProvider();
         final var stubsProvider = (StubsProvider<DummyContext>) ctx -> ctx;
         final var payloadProvider = (PayloadProvider<DummyContext>) ctx -> ctx;
-        final var propertiesProvider = (PropertiesProvider<DummyContext>) ctx -> ctx;
+        final var propertiesProvider = (ContextProvider<DummyContext>) ctx -> ctx;
         final var assertionsProvider = new DummyAssertionsProvider();
         final var context = new DummyContext().payload("ctx");
         final var description = "desc";
@@ -93,7 +93,7 @@ class TestScenarioBuilderTest {
         assertSame(actionProvider, scenario.actionProvider());
         assertSame(stubsProvider, scenario.stubs());
         assertSame(payloadProvider, scenario.payloadProvider());
-        assertSame(propertiesProvider, scenario.propertiesProvider());
+        assertSame(propertiesProvider, scenario.contextProvider());
         assertEquals(List.of(assertionsProvider), scenario.assertions());
         assertSame(context, scenario.context());
         assertEquals(description, scenario.description());
@@ -145,6 +145,6 @@ class TestScenarioBuilderTest {
 
         assertSame(ctx, scenario.stubs().create(ctx));
         assertSame(ctx, scenario.payloadProvider().create(ctx));
-        assertSame(ctx, scenario.propertiesProvider().create(ctx));
+        assertSame(ctx, scenario.contextProvider().create(ctx));
     }
 }

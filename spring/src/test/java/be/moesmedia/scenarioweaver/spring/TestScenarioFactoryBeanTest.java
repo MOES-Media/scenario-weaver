@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.ContextProvider;
 import be.moesmedia.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.core.PropertiesProvider;
 import be.moesmedia.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.core.TestScenarioContext;
@@ -37,7 +37,7 @@ class TestScenarioFactoryBeanTest {
 
     private ApplicationContext ctx;
     private StubsProvider stubsProvider;
-    private PropertiesProvider propertiesProvider;
+    private ContextProvider contextProvider;
     private PayloadProvider payloadProvider;
     private ActionProvider actionProvider;
 
@@ -45,12 +45,12 @@ class TestScenarioFactoryBeanTest {
     void setUp() {
         ctx = mock(ApplicationContext.class);
         stubsProvider = mock(StubsProvider.class);
-        propertiesProvider = mock(PropertiesProvider.class);
+        contextProvider = mock(ContextProvider.class);
         payloadProvider = mock(PayloadProvider.class);
         actionProvider = mock(ActionProvider.class);
 
         when(ctx.getBean("stubsProvider")).thenReturn(stubsProvider);
-        when(ctx.getBean("propertiesProvider")).thenReturn(propertiesProvider);
+        when(ctx.getBean("propertiesProvider")).thenReturn(contextProvider);
         when(ctx.getBean("payloadProvider")).thenReturn(payloadProvider);
         when(ctx.getBean("actionProvider")).thenReturn(actionProvider);
     }
@@ -90,7 +90,7 @@ class TestScenarioFactoryBeanTest {
 
         assertEquals("desc", scenario.description());
         assertSame(payloadProvider, scenario.payloadProvider());
-        assertSame(propertiesProvider, scenario.propertiesProvider());
+        assertSame(contextProvider, scenario.contextProvider());
         assertSame(stubsProvider, scenario.stubs());
         assertSame(actionProvider, scenario.actionProvider());
         assertEquals(List.of("assertion1", "assertion2"), scenario.assertions());
@@ -113,7 +113,7 @@ class TestScenarioFactoryBeanTest {
 
         assertEquals("desc2", scenario.description());
         assertSame(payloadProvider, scenario.payloadProvider());
-        assertSame(propertiesProvider, scenario.propertiesProvider());
+        assertSame(contextProvider, scenario.contextProvider());
         assertSame(stubsProvider, scenario.stubs());
         assertSame(actionProvider, scenario.actionProvider());
         assertEquals(Collections.emptyList(), scenario.assertions());

@@ -25,7 +25,41 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
+/**
+ * JUnit Jupiter extension for injecting {@link TestScenario} instances into test methods.
+ * <p>
+ * {@code TestScenarioWeaverExtension} enables scenario-based testing by resolving parameters
+ * annotated with {@link InjectTestScenario}. It locates a {@link TestScenarioProvider} marked with
+ * {@link TestScenarioSource} in the test class, and uses it to look up and inject the requested scenario
+ * by name.
+ * </p>
+ *
+ * <p>
+ * This extension allows flexible and modular scenario injection, supporting multiple providers
+ * (e.g., per nested class) and automating the setup for scenario-driven integration tests.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * <pre>
+ * &#64;ExtendWith(TestScenarioWeaverExtension.class)
+ * class MyTest {
+ *     &#64;TestScenarioSource
+ *     private final MyTestScenarioProvider provider = ...;
+ *
+ *     &#64;Test
+ *     void testScenario(@InjectTestScenario("myScenario") TestScenario&lt;Payload, Context&gt; scenario) {
+ *         // scenario is injected by name "myScenario"
+ *     }
+ * }
+ * </pre>
+ */
 public final class TestScenarioWeaverExtension implements ParameterResolver {
+
+    /**
+     * Constructs a new {@code TestScenarioWeaverExtension} instance.
+     */
+    public TestScenarioWeaverExtension() {}
 
     @Override
     public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)

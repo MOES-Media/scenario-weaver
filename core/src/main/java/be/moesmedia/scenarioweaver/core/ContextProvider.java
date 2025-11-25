@@ -17,7 +17,23 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
+/**
+ * Initializes and prepares the test scenario context for use in subsequent steps.
+ * <p>
+ * Implementations of this interface set up values in the context that can be used later,
+ * for example in the {@link ActionProvider} or {@link PayloadProvider}. This allows
+ * pre-configuration of state, such as setting IDs or other relevant data needed for the scenario.
+ * </p>
+ *
+ * @param <TContext> the type of scenario context to initialize
+ */
 @FunctionalInterface
-public interface PropertiesProvider<TContext extends TestScenarioContext<?>> {
+public interface ContextProvider<TContext extends TestScenarioContext<?>> {
+    /**
+     * Creates and initializes the scenario context with required values.
+     *
+     * @param context the scenario context to initialize
+     * @return the initialized scenario context
+     */
     TContext create(TContext context);
 }

@@ -17,7 +17,25 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
+/**
+ * Provides an entry point for executing an action within a scenario.
+ * <p>
+ * Implementations of this interface define how a scenario step is triggered,
+ * such as sending a request to an API, posting a message to a queue, or any other
+ * operation that initiates the scenario's execution.
+ * </p>
+ *
+ * @param <TPayload> the type of payload used to trigger the action
+ * @param <TContext> the scenario context, extending {@link TestScenarioContext}, which is updated and returned after execution
+ */
 @FunctionalInterface
 public interface ActionProvider<TPayload, TContext extends TestScenarioContext<TPayload>> {
+    /**
+     * Executes the scenario action using the provided payload and context.
+     *
+     * @param payload the payload to use for the action
+     * @param context the current scenario context
+     * @return the updated scenario context after the action is performed
+     */
     TContext execute(TPayload payload, TContext context);
 }

@@ -24,8 +24,33 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
+/**
+ * Spring {@link ImportBeanDefinitionRegistrar} for registering test scenario beans based on annotation configuration.
+ * <p>
+ * {@code TestScenarioWeavingRegistrar} is activated by {@link EnableTestScenarioWeaving} and scans the specified base packages
+ * for classes annotated with {@link ConfigureTestScenario}. For each such class, it registers a {@link TestScenarioFactoryBean}
+ * in the Spring context, using the configuration specified in the annotation.
+ * </p>
+ *
+ * <p>
+ * The bean name is determined by the {@code name} attribute of {@link ConfigureTestScenario}, or defaults to the class name.
+ * This enables annotation-driven, modular, and automatic registration of test scenarios for scenario-based testing.
+ */
 public final class TestScenarioWeavingRegistrar implements ImportBeanDefinitionRegistrar {
 
+    /**
+     * Constructs a new {@code TestScenarioWeavingRegistrar} instance.
+     */
+    public TestScenarioWeavingRegistrar() {}
+
+    /**
+     * Registers {@link TestScenarioFactoryBean} definitions for each class annotated with {@link ConfigureTestScenario}
+     * in the specified base packages.
+     *
+     * @param importingClassMetadata metadata of the importing class
+     * @param registry the bean definition registry
+     * @throws IllegalArgumentException if {@code basePackages} attribute is not set
+     */
     @Override
     public void registerBeanDefinitions(
             final AnnotationMetadata importingClassMetadata, final BeanDefinitionRegistry registry) {
@@ -43,7 +68,7 @@ public final class TestScenarioWeavingRegistrar implements ImportBeanDefinitionR
                 def.setBeanClass(TestScenarioFactoryBean.class);
                 def.getConstructorArgumentValues().addIndexedArgumentValue(0, clazz);
                 def.getConstructorArgumentValues().addIndexedArgumentValue(1, config.stubsProvider());
-                def.getConstructorArgumentValues().addIndexedArgumentValue(2, config.propertiesProvider());
+                def.getConstructorArgumentValues().addIndexedArgumentValue(2, config.contextProvider());
                 def.getConstructorArgumentValues().addIndexedArgumentValue(3, config.payloadProvider());
                 def.getConstructorArgumentValues().addIndexedArgumentValue(4, config.actionProvider());
                 def.getConstructorArgumentValues().addIndexedArgumentValue(5, config.description());

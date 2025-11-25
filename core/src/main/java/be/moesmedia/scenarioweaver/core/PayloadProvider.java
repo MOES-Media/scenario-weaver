@@ -17,7 +17,23 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
+/**
+ * Provides payloads for use in the {@link ActionProvider}, utilizing the scenario context.
+ * <p>
+ * Implementations of this interface generate a payload based on the current scenario context,
+ * allowing for pre-set values (such as database IDs) to simulate specific conditions or conflicts
+ * during scenario execution.
+ * </p>
+ *
+ * @param <TContext> the type of scenario context used to create or enrich the payload
+ */
 @FunctionalInterface
 public interface PayloadProvider<TContext> {
+    /**
+     * Creates or enriches a payload using the provided scenario context.
+     *
+     * @param context the scenario context containing relevant state or data
+     * @return the updated scenario context with the prepared payload
+     */
     TContext create(TContext context);
 }

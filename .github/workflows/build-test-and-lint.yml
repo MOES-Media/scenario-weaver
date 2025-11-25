@@ -76,3 +76,6 @@ jobs:
 
       - name: Run Checkstyle
         run: mvn checkstyle:check
+
+      - name: Run javadoc check
+        run: mvn -B clean install javadoc:javadoc -Dmaven.javadoc.failOnWarnings=true -DskipTests

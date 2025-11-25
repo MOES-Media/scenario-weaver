@@ -23,6 +23,23 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Meta annotation for defining a {@link be.moesmedia.scenarioweaver.core.TestScenario} bean
+ * in bean-based configuration.
+ * <p>
+ * Methods annotated with {@code @TestScenarioBean} are recognized as factory methods for
+ * test scenario beans, enabling integration with Spring's bean lifecycle and configuration.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * <pre>
+ * &#64;TestScenarioBean
+ * public TestScenario&lt;Payload, Context&gt; myScenario() {
+ *     // return a configured TestScenario instance
+ * }
+ * </pre>
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Bean

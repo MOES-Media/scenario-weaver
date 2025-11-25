@@ -23,6 +23,27 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.springframework.boot.test.context.TestConfiguration;
 
+/**
+ * Meta-annotation for grouping test scenarios in bean-based configuration.
+ * <p>
+ * {@code @TestScenarios} is used to mark a Spring {@link org.springframework.context.annotation.Configuration}
+ * class as a container for multiple {@link be.moesmedia.scenarioweaver.core.TestScenario} beans.
+ * This enables logical grouping and organization of related test scenarios.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * <pre>
+ * &#64;TestScenarios
+ * public class UserScenarioConfig {
+ *     &#64;TestScenarioBean
+ *     public TestScenario&lt;Payload, Context&gt; registerUserScenario() { ... }
+ *
+ *     &#64;TestScenarioBean
+ *     public TestScenario&lt;Payload, Context&gt; deleteUserScenario() { ... }
+ * }
+ * </pre>
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @TestConfiguration

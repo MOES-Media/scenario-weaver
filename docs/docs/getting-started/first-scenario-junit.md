@@ -42,7 +42,7 @@ public class HelloWorldTestScenario implements TestScenario<String, TestScenario
     }
 
     @Override
-    public PropertiesProvider<TestScenarioProperties, Void> propertiesProvider() {
+    public PropertiesProvider<TestScenarioProperties, Void> contextProvider() {
         return ctx -> null;
     }
 

@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import be.moesmedia.scenarioweaver.core.ActionProvider;
 import be.moesmedia.scenarioweaver.core.AssertionsProvider;
+import be.moesmedia.scenarioweaver.core.ContextProvider;
 import be.moesmedia.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.core.PropertiesProvider;
 import be.moesmedia.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.core.TestScenario;
 import java.util.List;
@@ -39,7 +39,7 @@ public class HelloWorldTestScenario implements TestScenario<String, HelloWorldCo
     }
 
     @Override
-    public PropertiesProvider<HelloWorldContext> propertiesProvider() {
+    public ContextProvider<HelloWorldContext> contextProvider() {
         return ctx -> ctx;
     }
 

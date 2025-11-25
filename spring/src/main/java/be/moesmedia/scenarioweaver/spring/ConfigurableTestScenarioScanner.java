@@ -23,9 +23,27 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
+/**
+ * Helper class for scanning the classpath to find classes annotated with {@link ConfigureTestScenario}.
+ * <p>
+ * This utility uses Spring's {@link ClassPathScanningCandidateComponentProvider} to search for candidate
+ * components in the specified base package that are marked with the {@code @ConfigureTestScenario} annotation.
+ * It returns a set of matching classes, enabling automated discovery and registration of test scenarios.
+ * </p>
+ */
 public class ConfigurableTestScenarioScanner {
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private ConfigurableTestScenarioScanner() {}
 
+    /**
+     * Scans the given base package for classes annotated with {@link ConfigureTestScenario}.
+     *
+     * @param basePackage the package to scan
+     * @return a set of classes annotated with {@code @ConfigureTestScenario}
+     * @throws RuntimeException if a class cannot be loaded
+     */
     public static Set<Class<?>> getAnnotatedClasses(final String basePackage) {
         final ClassPathScanningCandidateComponentProvider scanner =
                 new ClassPathScanningCandidateComponentProvider(false);

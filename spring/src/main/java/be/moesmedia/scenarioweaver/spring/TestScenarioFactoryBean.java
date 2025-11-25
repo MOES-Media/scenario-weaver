@@ -18,8 +18,8 @@
 package be.moesmedia.scenarioweaver.spring;
 
 import be.moesmedia.scenarioweaver.core.ActionProvider;
+import be.moesmedia.scenarioweaver.core.ContextProvider;
 import be.moesmedia.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.core.PropertiesProvider;
 import be.moesmedia.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.core.TestScenarioContext;
@@ -31,12 +31,31 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
 
+/**
+ * {@link FactoryBean} implementation for creating {@link TestScenario} instances using annotation-based configuration in Spring.
+ * <p>
+ * {@code TestScenarioFactoryBean} constructs a {@link TestScenario} by looking up provider beans
+ * (stubs, context, payload, action) by name from the Spring {@link ApplicationContext}, as specified
+ * in the {@link ConfigureTestScenario} annotation. It also invokes any method annotated with {@link Assertions}
+ * on the configuration class to retrieve assertion providers.
+ * </p>
+ *
+ * <p>
+ * This factory enables flexible and modular scenario setup, supporting annotation-driven configuration
+ * and integration with the Spring bean lifecycle.
+ * </p>
+ *
+ * <p>
+ * Usage: This bean is registered automatically when using {@link EnableTestScenarioWeaving} and
+ * {@link ConfigureTestScenario} for annotation-based scenario creation.
+ * </p>
+ */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?, ?>>, ApplicationContextAware {
     private final Class<?> configClass;
     private final Class<? extends TestScenarioContext<?>> contextClass;
     private final String stubsProviderName;
-    private final String propertiesProviderName;
+    private final String contextProviderName;
     private final String payloadProviderName;
     private final String actionProviderName;
     private final String description;
@@ -44,10 +63,22 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
 
     private ApplicationContext ctx;
 
+    /**
+     * Constructs a new {@code TestScenarioFactoryBean}.
+     *
+     * @param configClass the configuration class annotated with {@link ConfigureTestScenario}
+     * @param stubsProviderName the bean name of the stubs provider
+     * @param contextProviderName the bean name of the context provider
+     * @param payloadProviderName the bean name of the payload provider
+     * @param actionProviderName the bean name of the action provider
+     * @param description the scenario description
+     * @param group the scenario group
+     * @param contextClass the scenario context class
+     */
     public TestScenarioFactoryBean(
             Class<?> configClass,
             String stubsProviderName,
-            String propertiesProviderName,
+            String contextProviderName,
             String payloadProviderName,
             String actionProviderName,
             String description,
@@ -55,7 +86,7 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
             Class<? extends TestScenarioContext<?>> contextClass) {
         this.configClass = configClass;
         this.stubsProviderName = stubsProviderName;
-        this.propertiesProviderName = propertiesProviderName;
+        this.contextProviderName = contextProviderName;
         this.payloadProviderName = payloadProviderName;
         this.actionProviderName = actionProviderName;
         this.description = description;
@@ -63,16 +94,27 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
         this.contextClass = contextClass;
     }
 
+    /**
+     * Sets the Spring {@link ApplicationContext} for bean lookups.
+     *
+     * @param applicationContext the application context
+     */
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         this.ctx = applicationContext;
     }
 
+    /**
+     * Creates the {@link TestScenario} instance by looking up providers and assertions from the context and config class.
+     *
+     * @return the constructed {@link TestScenario} instance
+     * @throws RuntimeException if scenario creation fails
+     */
     @Override
     public TestScenario<?, ?> getObject() {
         try {
             final Object stubsProvider = ctx.getBean(stubsProviderName);
-            final Object propertiesProvider = ctx.getBean(propertiesProviderName);
+            final Object contextProvider = ctx.getBean(contextProviderName);
             final Object payloadProvider = ctx.getBean(payloadProviderName);
             final Object actionProvider = ctx.getBean(actionProviderName);
 
@@ -100,8 +142,8 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
                 }
 
                 @Override
-                public PropertiesProvider propertiesProvider() {
-                    return (PropertiesProvider) propertiesProvider;
+                public ContextProvider contextProvider() {
+                    return (ContextProvider) contextProvider;
                 }
 
                 @Override
@@ -136,6 +178,11 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
         }
     }
 
+    /**
+     * Returns the type of object produced by this factory.
+     *
+     * @return the {@link TestScenario} class
+     */
     @Override
     public Class<?> getObjectType() {
         return TestScenario.class;
