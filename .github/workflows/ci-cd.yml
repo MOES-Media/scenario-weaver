@@ -108,4 +108,6 @@ jobs:
       - analyze
       - check-license-headers
     runs-on: ubuntu-latest
-    uses: ./.github/workflows/docs.yml
+    steps:
+      - name: Publish Documentation
+        uses: ./.github/workflows/docs.yml
