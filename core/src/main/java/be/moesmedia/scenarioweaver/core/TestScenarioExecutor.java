@@ -17,8 +17,23 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
+/**
+ * Executes a {@link TestScenario}, automating the integration test flow.
+ * <p>
+ * Implementations of this interface run the provided test scenario, coordinating
+ * the initialization, action execution, stubbing, and assertions as defined by the scenario.
+ * This enables automated and repeatable scenario-based integration testing.
+ * </p>
+ */
 @FunctionalInterface
 public interface TestScenarioExecutor {
+    /**
+     * Executes the given test scenario.
+     *
+     * @param testScenario the scenario to execute
+     * @param <TPayload> the type of payload used in the scenario
+     * @param <TContext> the type of scenario context
+     */
     <TPayload, TContext extends TestScenarioContext<TPayload>> void execute(
             TestScenario<TPayload, TContext> testScenario);
 }

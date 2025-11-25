@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import be.moesmedia.scenarioweaver.core.ActionProvider;
 import be.moesmedia.scenarioweaver.core.PayloadProvider;
-import be.moesmedia.scenarioweaver.core.PropertiesProvider;
+import be.moesmedia.scenarioweaver.core.ContextProvider;
 import be.moesmedia.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.core.TestScenarioBuilder;
@@ -70,7 +70,7 @@ class HelloSpringTest {
         }
 
         @Bean
-        public PropertiesProvider<HelloSpringContext> myPropertiesProvider() {
+        public ContextProvider<HelloSpringContext> myPropertiesProvider() {
             return ctx -> ctx;
         }
 

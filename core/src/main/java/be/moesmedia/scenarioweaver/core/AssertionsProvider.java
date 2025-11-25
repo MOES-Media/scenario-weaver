@@ -17,7 +17,22 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
+/**
+ * Provides a mechanism for performing assertions using the scenario context.
+ * <p>
+ * Implementations of this interface define how assertions are executed
+ * based on the current state of the scenario context, allowing validation
+ * of outcomes and conditions within a scenario.
+ * </p>
+ *
+ * @param <TContext> the type of scenario context used for assertions
+ */
 @FunctionalInterface
 public interface AssertionsProvider<TContext> {
+    /**
+     * Executes assertions using the provided scenario context.
+     *
+     * @param context the scenario context containing state and data for validation
+     */
     void execute(TContext context);
 }

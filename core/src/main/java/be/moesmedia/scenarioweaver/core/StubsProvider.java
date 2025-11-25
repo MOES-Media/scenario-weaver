@@ -17,7 +17,23 @@
  */
 package be.moesmedia.scenarioweaver.core;
 
+/**
+ * Sets up stubs for mocking external or internal calls within a scenario.
+ * <p>
+ * Implementations of this interface configure stubs using the scenario context,
+ * allowing you to mock dependencies such as external services, APIs, or other components
+ * required for scenario execution.
+ * </p>
+ *
+ * @param <TContext> the type of scenario context used to configure stubs
+ */
 @FunctionalInterface
 public interface StubsProvider<TContext> {
+    /**
+     * Creates and configures stubs using the provided scenario context.
+     *
+     * @param context the scenario context containing relevant state or data
+     * @return the updated scenario context with stubs configured
+     */
     TContext create(TContext context);
 }

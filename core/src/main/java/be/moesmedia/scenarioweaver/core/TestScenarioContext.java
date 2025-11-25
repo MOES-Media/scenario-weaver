@@ -20,9 +20,35 @@ package be.moesmedia.scenarioweaver.core;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
+/**
+ * Represents the context for a test scenario, holding state and data relevant to scenario execution.
+ * <p>
+ * The scenario context provides access to the payload and manages scenario-specific properties.
+ * It supports merging with another context instance, allowing you to combine or override values
+ * as needed for flexible scenario setup and execution.
+ * </p>
+ *
+ * @param <TPayload> the type of payload associated with the scenario
+ */
 public interface TestScenarioContext<TPayload> {
+    /**
+     * Returns the payload associated with this scenario context.
+     *
+     * @return the scenario payload
+     */
     TPayload payload();
 
+    /**
+     * Merges this context with another context of the same type.
+     * <p>
+     * For each field, non-null values from this context take precedence;
+     * otherwise, non-null values from the provided context are used.
+     * </p>
+     *
+     * @param context the context to merge with
+     * @param <TContext> the type of scenario context
+     * @return a new merged scenario context
+     */
     @SuppressWarnings("unchecked")
     default <TContext extends TestScenarioContext<TPayload>> TContext merge(final TContext context) {
         try {

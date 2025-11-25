@@ -38,7 +38,7 @@ public final class TestScenarioBuilder<TPayload, TContext extends TestScenarioCo
     private ActionProvider<TPayload, TContext> actionProvider;
     private StubsProvider<TContext> stubsProvider = ctx -> ctx;
     private PayloadProvider<TContext> payloadProvider = ctx -> ctx;
-    private PropertiesProvider<TContext> propertiesProvider = ctx -> ctx;
+    private ContextProvider<TContext> contextProvider = ctx -> ctx;
     private List<AssertionsProvider<TContext>> assertionsProviders;
     private TContext context;
     private String description;
@@ -132,13 +132,13 @@ public final class TestScenarioBuilder<TPayload, TContext extends TestScenarioCo
     }
 
     /**
-     * Sets the {@link PropertiesProvider} for this scenario.
+     * Sets the {@link ContextProvider} for this scenario.
      *
      * @param provider the properties provider to use
      * @return this builder instance for chaining
      */
-    public TestScenarioBuilder<TPayload, TContext> propertiesProvider(PropertiesProvider<TContext> provider) {
-        this.propertiesProvider = provider;
+    public TestScenarioBuilder<TPayload, TContext> propertiesProvider(ContextProvider<TContext> provider) {
+        this.contextProvider = provider;
         return this;
     }
 
@@ -177,8 +177,8 @@ public final class TestScenarioBuilder<TPayload, TContext extends TestScenarioCo
             }
 
             @Override
-            public PropertiesProvider<TContext> propertiesProvider() {
-                return propertiesProvider;
+            public ContextProvider<TContext> contextProvider() {
+                return contextProvider;
             }
 
             @Override

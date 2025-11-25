@@ -23,18 +23,45 @@ import be.moesmedia.scenarioweaver.core.TestScenarioExecutor;
 import be.moesmedia.scenarioweaver.core.TestScenarioPipe;
 import java.util.Objects;
 
+/**
+ * The default implementation of {@link TestScenarioExecutor}, orchestrating the execution of a test scenario.
+ * <p>
+ * This executor coordinates the full lifecycle of a scenario by sequentially invoking each configured provider:
+ * <ul>
+ *   <li>Initializes the scenario context.</li>
+ *   <li>Applies the context provider to set up initial properties.</li>
+ *   <li>Uses the payload provider to prepare the payload within the context.</li>
+ *   <li>Configures stubs for mocking external or internal dependencies.</li>
+ *   <li>Executes the main action of the scenario using the prepared payload and context.</li>
+ *   <li>Runs all assertions to validate the outcome of the scenario.</li>
+ * </ul>
+ * The execution is performed in a fluent, pipeline-style manner using {@link TestScenarioPipe},
+ * ensuring each step receives the updated context from the previous step.
+ * </p>
+ *
+ * @throws IllegalArgumentException if the provided {@code testScenario} is {@code null}
+ */
 public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
 
+    /**
+     * Executes the given test scenario by chaining context initialization, payload preparation,
+     * stubbing, action execution, and assertions.
+     *
+     * @param testScenario the scenario to execute
+     * @param <TPayload> the type of payload used in the scenario
+     * @param <TContext> the type of scenario context
+     * @throws IllegalArgumentException if {@code testScenario} is {@code null}
+     */
     @Override
     public <TPayload, TContext extends TestScenarioContext<TPayload>> void execute(
-            TestScenario<TPayload, TContext> testScenario) {
+            TestScenario<TPayload, TContext> testScenario) throws IllegalArgumentException {
         if (Objects.isNull(testScenario)) {
             throw new IllegalArgumentException("TestScenario is null, we cannot execute what is not there...");
         }
 
         TestScenarioPipe.of(testScenario.context())
+                .pipe(ctx -> testScenario.contextProvider().create(ctx))
                 .pipe(ctx -> testScenario.payloadProvider().create(ctx))
-                .pipe(ctx -> testScenario.propertiesProvider().create(ctx))
                 .pipe(ctx -> testScenario.stubs().create(ctx))
                 .pipe(ctx -> testScenario.actionProvider().execute(ctx.payload(), ctx))
                 .execute(ctx -> testScenario.assertions().forEach(assertion -> assertion.execute(ctx)));
