@@ -1,0 +1,40 @@
+name: Example Request
+description: Request a specific code example or integration scenario
+title: "[Example Request] "
+labels: [example, documentation]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Example Request
+
+  - type: input
+    id: technology
+    attributes:
+      label: Technology or Integration
+      description: What technology or integration do you need an example for? (e.g., RabbitMQ, Kafka, etc.)
+      placeholder: "RabbitMQ"
+
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario Description
+      description: Describe the scenario or use case you want an example for.
+      placeholder: |
+        e.g. "How to set up a test scenario that publishes and consumes messages using RabbitMQ."
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Outcome
+      description: What should the example demonstrate or achieve?
+      placeholder: "Show how to configure and verify message delivery in a test scenario."
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other details, requirements, or references?
+      placeholder: "Add any other relevant information here."

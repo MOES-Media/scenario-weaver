@@ -4,19 +4,24 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "development"
   - package-ecosystem: "maven"
     directory: "/core"
     schedule:
       interval: "weekly"
+    target-branch: "development"
   - package-ecosystem: "maven"
     directory: "/examples"
     schedule:
       interval: "weekly"
+    target-branch: "development"
   - package-ecosystem: "maven"
     directory: "/junit"
     schedule:
       interval: "weekly"
+    target-branch: "development"
   - package-ecosystem: "maven"
     directory: "/spring"
     schedule:
       interval: "weekly"
+    target-branch: "development"

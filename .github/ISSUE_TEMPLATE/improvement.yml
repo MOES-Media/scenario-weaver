@@ -1,0 +1,39 @@
+name: Improvement
+description: Suggest an enhancement or improvement to the project
+title: "[Improvement] "
+labels: [enhancement]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Improvement Suggestion
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe the improvement.
+      placeholder: e.g. "Improve scenario execution performance"
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why would this improvement be beneficial?
+      placeholder: e.g. "Faster execution will help with CI/CD pipelines"
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: How do you suggest we implement this improvement?
+      placeholder: e.g. "Refactor the executor to use parallel streams"
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or references?
+      placeholder: "Add any other details here"
