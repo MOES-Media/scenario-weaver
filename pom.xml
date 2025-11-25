@@ -36,7 +36,7 @@
         <wiremock.version>4.0.8</wiremock.version>
         <mockito.version>5.2.0</mockito.version>
         <palantir.verions>2.36.0</palantir.verions>
-        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.version>0.8.14</jacoco.version>
         <testcontainers.version>1.21.3</testcontainers.version>
     </properties>
     <dependencyManagement>
