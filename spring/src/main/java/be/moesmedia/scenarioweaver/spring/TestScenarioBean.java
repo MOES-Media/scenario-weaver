@@ -43,5 +43,4 @@ import org.springframework.context.annotation.Bean;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Bean
-public @interface TestScenarioBean {
-}
+public @interface TestScenarioBean {}

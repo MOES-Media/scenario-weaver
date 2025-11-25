@@ -47,5 +47,4 @@ import org.springframework.boot.test.context.TestConfiguration;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @TestConfiguration
-public @interface TestScenarios {
-}
+public @interface TestScenarios {}

@@ -63,7 +63,7 @@ public final class SpringTestScenarioWeaverExtension implements ParameterResolve
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return parameterContext.isAnnotated(InjectTestScenario.class)
                 && TestScenario.class.isAssignableFrom(
-                parameterContext.getParameter().getType());
+                        parameterContext.getParameter().getType());
     }
 
     /**

@@ -35,8 +35,7 @@ public class ConfigurableTestScenarioScanner {
     /**
      * Private constructor to prevent instantiation.
      */
-    private ConfigurableTestScenarioScanner() {
-    }
+    private ConfigurableTestScenarioScanner() {}
 
     /**
      * Scans the given base package for classes annotated with {@link ConfigureTestScenario}.

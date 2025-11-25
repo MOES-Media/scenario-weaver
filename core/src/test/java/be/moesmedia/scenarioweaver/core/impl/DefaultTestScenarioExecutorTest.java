@@ -18,7 +18,6 @@
 package be.moesmedia.scenarioweaver.core.impl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,20 +72,21 @@ class DefaultTestScenarioExecutorTest {
         final ActionProvider<String, DummyContext> actionProvider = mock(ActionProvider.class);
         final AssertionsProvider<DummyContext> assertion = mock(AssertionsProvider.class);
 
-        DummyContext payloadCtx = new DummyContext("payload");
+        DummyContext initialCtx = new DummyContext("initial");
         DummyContext propertiesCtx = new DummyContext("props");
+        DummyContext payloadCtx = new DummyContext("payload");
         DummyContext stubsCtx = new DummyContext("stubs");
         DummyContext resultCtx = new DummyContext("result");
 
-        when(scenario.contextClass()).thenReturn(DummyContext.class);
-        when(scenario.payloadProvider()).thenReturn(payloadProvider);
-        when(payloadProvider.create(any())).thenReturn(payloadCtx);
-
+        when(scenario.context()).thenReturn(initialCtx);
         when(scenario.contextProvider()).thenReturn(contextProvider);
-        when(contextProvider.create(payloadCtx)).thenReturn(propertiesCtx);
+        when(contextProvider.create(initialCtx)).thenReturn(propertiesCtx);
+
+        when(scenario.payloadProvider()).thenReturn(payloadProvider);
+        when(payloadProvider.create(propertiesCtx)).thenReturn(payloadCtx);
 
         when(scenario.stubs()).thenReturn(stubsProvider);
-        when(stubsProvider.create(propertiesCtx)).thenReturn(stubsCtx);
+        when(stubsProvider.create(payloadCtx)).thenReturn(stubsCtx);
 
         when(scenario.actionProvider()).thenReturn(actionProvider);
         when(actionProvider.execute(stubsCtx.payload(), stubsCtx)).thenReturn(resultCtx);
@@ -95,9 +95,9 @@ class DefaultTestScenarioExecutorTest {
 
         executor.execute(scenario);
 
-        verify(payloadProvider).create(any());
-        verify(contextProvider).create(payloadCtx);
-        verify(stubsProvider).create(propertiesCtx);
+        verify(contextProvider).create(initialCtx);
+        verify(payloadProvider).create(propertiesCtx);
+        verify(stubsProvider).create(payloadCtx);
         verify(actionProvider).execute(stubsCtx.payload(), stubsCtx);
         verify(assertion).execute(resultCtx);
     }

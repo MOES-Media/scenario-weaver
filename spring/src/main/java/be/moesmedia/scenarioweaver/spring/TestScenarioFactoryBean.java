@@ -166,9 +166,9 @@ public final class TestScenarioFactoryBean implements FactoryBean<TestScenario<?
                     try {
                         return contextClass.getDeclaredConstructor().newInstance();
                     } catch (InvocationTargetException
-                             | InstantiationException
-                             | IllegalAccessException
-                             | NoSuchMethodException e) {
+                            | InstantiationException
+                            | IllegalAccessException
+                            | NoSuchMethodException e) {
                         return null;
                     }
                 }
