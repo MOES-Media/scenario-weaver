@@ -37,6 +37,7 @@ gradle-app.setting
 settings.xml
 toolchains.xml
 docs/site
+docs/docs/javadoc
 
 ##############################
 ## IntelliJ
