@@ -22,6 +22,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Marker annotation for providing a {@code List<AssertionsProvider<TContext>>} to a test scenario.
+ * <p>
+ * Methods annotated with {@code @Assertions} are used during scenario setup (via {@code @ConfigureTestScenario})
+ * to supply assertion providers that validate the scenario outcome.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * <pre>
+ * &#64;Assertions
+ * public List&lt;AssertionsProvider&lt;MyContext&gt;&gt; myAssertions() {
+ *     // return list of assertion providers
+ * }
+ * </pre>
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Assertions {}

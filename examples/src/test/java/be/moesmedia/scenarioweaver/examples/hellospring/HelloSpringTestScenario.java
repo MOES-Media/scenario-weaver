@@ -29,7 +29,7 @@ import org.springframework.http.HttpStatus;
         name = "helloSpring",
         context = HelloSpringContext.class,
         stubsProvider = "myStubsProvider",
-        propertiesProvider = "myPropertiesProvider",
+        contextProvider = "myPropertiesProvider",
         payloadProvider = "myPayloadProvider",
         actionProvider = "myActionProvider",
         description = "Hello Spring Test")

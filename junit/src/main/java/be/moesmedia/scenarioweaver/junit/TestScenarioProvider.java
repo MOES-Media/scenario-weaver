@@ -20,6 +20,19 @@ package be.moesmedia.scenarioweaver.junit;
 import be.moesmedia.scenarioweaver.core.TestScenario;
 import java.util.Optional;
 
+/**
+ * Provides lookup functionality for {@link TestScenario} instances by name.
+ * <p>
+ * Implementations of this interface are used in conjunction with the {@link InjectTestScenario}
+ * annotation to resolve and inject scenarios into JUnit tests based on their names.
+ * </p>
+ */
 public interface TestScenarioProvider {
+    /**
+     * Retrieves a {@link TestScenario} by its name.
+     *
+     * @param name the name of the scenario to look up
+     * @return an {@link Optional} containing the scenario if found, or empty if not found
+     */
     Optional<? extends TestScenario<?, ?>> getTestScenario(String name);
 }

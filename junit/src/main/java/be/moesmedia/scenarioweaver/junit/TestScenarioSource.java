@@ -22,6 +22,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Marks a field as the source for {@link TestScenarioProvider} implementations.
+ * <p>
+ * This annotation is used to indicate which field provides the {@link TestScenarioProvider}
+ * for scenario lookups, allowing different sources to be specified per nested class or test context.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * <pre>
+ * &#64;TestScenarioSource
+ * private final MyTestScenarioProvider provider = ...;
+ * </pre>
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TestScenarioSource {}

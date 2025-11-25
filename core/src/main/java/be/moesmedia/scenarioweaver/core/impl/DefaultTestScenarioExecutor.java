@@ -37,11 +37,13 @@ import java.util.Objects;
  * </ul>
  * The execution is performed in a fluent, pipeline-style manner using {@link TestScenarioPipe},
  * ensuring each step receives the updated context from the previous step.
- * </p>
- *
- * @throws IllegalArgumentException if the provided {@code testScenario} is {@code null}
  */
 public final class DefaultTestScenarioExecutor implements TestScenarioExecutor {
+
+    /**
+     * Constructs a new {@code DefaultTestScenarioExecutor} instance.
+     */
+    public DefaultTestScenarioExecutor() {}
 
     /**
      * Executes the given test scenario by chaining context initialization, payload preparation,

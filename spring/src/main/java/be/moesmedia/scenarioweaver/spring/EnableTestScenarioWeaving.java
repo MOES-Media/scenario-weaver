@@ -23,9 +23,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
+/**
+ * Enables annotation-based test scenario creation by importing {@link TestScenarioWeavingRegistrar}.
+ * <p>
+ * Use this annotation on a Spring configuration class to activate automatic scanning and registration
+ * of test scenarios defined with {@link ConfigureTestScenario}. Specify the base packages to scan for
+ * annotated scenario classes.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * <pre>
+ * &#64;EnableTestScenarioWeaving(basePackages = {"be.moesmedia.scenarioweaver.scenarios"})
+ * public class ScenarioConfig { }
+ * </pre>
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Import(TestScenarioWeavingRegistrar.class)
 public @interface EnableTestScenarioWeaving {
+    /**
+     * The base packages to scan for {@link ConfigureTestScenario}-annotated classes.
+     *
+     * @return array of package names to scan
+     */
     String[] basePackages();
 }

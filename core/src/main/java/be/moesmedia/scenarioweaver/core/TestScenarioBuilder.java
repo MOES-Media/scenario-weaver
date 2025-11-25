@@ -33,6 +33,9 @@ import java.util.Optional;
  *     .assertionsProviders(...)
  *     .build();
  * </pre>
+ *
+ * @param <TPayload> the type of the payload used in the scenario
+ * @param <TContext> the type of the scenario context, extending {@link TestScenarioContext}
  */
 public final class TestScenarioBuilder<TPayload, TContext extends TestScenarioContext<TPayload>> {
     private ActionProvider<TPayload, TContext> actionProvider;
@@ -42,6 +45,11 @@ public final class TestScenarioBuilder<TPayload, TContext extends TestScenarioCo
     private List<AssertionsProvider<TContext>> assertionsProviders;
     private TContext context;
     private String description;
+
+    /**
+     * Constructs a new {@code TestScenarioBuilder} instance.
+     */
+    private TestScenarioBuilder() {}
 
     /**
      * Creates a new {@link TestScenarioBuilder} instance.

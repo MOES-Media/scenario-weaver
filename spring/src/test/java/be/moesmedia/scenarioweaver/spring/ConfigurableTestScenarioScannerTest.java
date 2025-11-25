@@ -34,7 +34,7 @@ class ConfigurableTestScenarioScannerTest {
 
     @ConfigureTestScenario(
             stubsProvider = "stubs",
-            propertiesProvider = "props",
+            contextProvider = "props",
             payloadProvider = "payload",
             actionProvider = "action",
             description = "desc",

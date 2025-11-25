@@ -20,8 +20,8 @@ package be.moesmedia.scenarioweaver.examples.hellospring;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import be.moesmedia.scenarioweaver.core.ActionProvider;
-import be.moesmedia.scenarioweaver.core.PayloadProvider;
 import be.moesmedia.scenarioweaver.core.ContextProvider;
+import be.moesmedia.scenarioweaver.core.PayloadProvider;
 import be.moesmedia.scenarioweaver.core.StubsProvider;
 import be.moesmedia.scenarioweaver.core.TestScenario;
 import be.moesmedia.scenarioweaver.core.TestScenarioBuilder;

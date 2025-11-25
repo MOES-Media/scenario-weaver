@@ -28,7 +28,8 @@ import java.util.function.Function;
  * Each step can modify or act upon the scenario state, supporting a functional and fluent test flow.
  * </p>
  *
- * @param <T> the type of value carried through the pipeline
+ * @param <T>   the type of value carried through the pipeline
+ * @param value the value carried through the pipeline
  */
 public record TestScenarioPipe<T>(T value) {
 
@@ -36,7 +37,7 @@ public record TestScenarioPipe<T>(T value) {
      * Creates a new {@code TestScenarioPipe} with the given value.
      *
      * @param value the initial value for the pipeline
-     * @param <T> the type of the value
+     * @param <T>   the type of the value
      * @return a new {@code TestScenarioPipe} instance
      */
     public static <T> TestScenarioPipe<T> of(T value) {
@@ -47,7 +48,7 @@ public record TestScenarioPipe<T>(T value) {
      * Transforms the current value using the provided mapping function and returns a new pipe.
      *
      * @param mapper the function to transform the value
-     * @param <R> the type of the result after mapping
+     * @param <R>    the type of the result after mapping
      * @return a new {@code TestScenarioPipe} with the mapped value
      */
     public <R> TestScenarioPipe<R> pipe(Function<? super T, ? extends R> mapper) {
