@@ -91,3 +91,6 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
+
+docs/docs/javadoc
+examples/src/test/resources/testcontainers.properties
