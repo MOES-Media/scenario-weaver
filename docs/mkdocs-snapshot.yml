@@ -13,9 +13,9 @@ nav:
       - Your First Scenario (Spring): getting-started/first-scenario-spring.md
       - Examples: getting-started/examples.md
   - Dev:
-    - JavaDocs: javadoc/index.html
-    - SNAPSHOT documentation: snapshot
-    - Code Coverage Report: https://app.codecov.io/gh/MOES-Media/scenario-weaver/
+      - JavaDocs: javadoc/index.html
+      - Documentation: /
+      - Code Coverage Report: https://app.codecov.io/gh/MOES-Media/scenario-weaver/
 
 repo_url: https://github.com/MOES-Media/scenario-weaver
 edit_uri: edit/main/docs/docs
