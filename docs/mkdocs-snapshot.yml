@@ -14,7 +14,7 @@ nav:
       - Examples: getting-started/examples.md
   - Dev:
       - JavaDocs: javadoc/index.html
-      - Documentation: /
+      - Documentation: /scenario-weaver/
       - Code Coverage Report: https://app.codecov.io/gh/MOES-Media/scenario-weaver/
 
 repo_url: https://github.com/MOES-Media/scenario-weaver

@@ -28,16 +28,19 @@ jobs:
           cache: "maven"
 
       - name: Generate Javadocs
-        run: mvn clean javadoc:javadoc javadoc:aggregate
+        run: mvn clean install javadoc:javadoc javadoc:aggregate -DskipTests
 
       - name: Copy Javadocs
-        run: cp -r target/site/apidocs docs/docs/javadoc
+        run: |
+          if [ -d target/site/apidocs ]; then
+            cp -r target/site/apidocs docs/docs/javadoc
+          fi
 
       - name: Install MkDocs
         run: pip install mkdocs mkdocs-material mkdocs-macros-plugin
 
       - name: Build main docs
-        run: python -m mkdocs build -f mkdocs-main.yml -d site
+        run: python -m mkdocs build -d site
         working-directory: docs
 
       - name: Upload main site
@@ -52,7 +55,7 @@ jobs:
       - name: Checkout dev branch
         uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: development
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -67,7 +70,7 @@ jobs:
           cache: "maven"
 
       - name: Generate Javadocs
-        run: mvn clean javadoc:javadoc javadoc:aggregate
+        run: mvn clean install javadoc:javadoc javadoc:aggregate -DskipTest
 
       - name: Copy Javadocs
         run: cp -r target/site/apidocs docs/docs/javadoc
@@ -87,6 +90,8 @@ jobs:
 
   merge-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs:
       - build-main
       - build-snapshot
@@ -105,8 +110,10 @@ jobs:
 
       - name: Copy snapshot into main site
         run: |
-          rm -rf site/snapshot
-          cp -r snapshot-site/* site/snapshot
+          if [[ -d site/snapshot ]]; then
+            rm -rf site/snapshot
+          fi
+          cp -r snapshot-site site/snapshot
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
