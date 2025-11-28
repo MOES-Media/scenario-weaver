@@ -114,7 +114,7 @@ jobs:
           if [[ -d site/snapshot ]]; then
             rm -rf site/snapshot
           fi
-          cp -r snapshot-site/* site/snapshot
+          cp -r snapshot-site site/snapshot
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
