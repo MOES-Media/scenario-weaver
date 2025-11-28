@@ -111,7 +111,9 @@ jobs:
 
       - name: Copy snapshot into main site
         run: |
-          rm -rf site/snapshot
+          if [[ -d site/snapshot ]]; then
+            rm -rf site/snapshot
+          fi
           cp -r snapshot-site/* site/snapshot
 
       - name: Deploy to GitHub Pages
