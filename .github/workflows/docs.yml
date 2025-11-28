@@ -43,7 +43,7 @@ jobs:
         run: pip install mkdocs mkdocs-material mkdocs-macros-plugin
 
       - name: Build main docs
-        run: python -m mkdocs build -f mkdocs-main.yml -d site
+        run: python -m mkdocs build -d site
         working-directory: docs
 
       - name: Upload main site
