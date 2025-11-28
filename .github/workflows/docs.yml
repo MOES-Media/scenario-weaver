@@ -38,6 +38,7 @@ jobs:
 
       - name: Build main docs
         run: python -m mkdocs build -f mkdocs-main.yml -d site
+        working-directory: docs
 
       - name: Upload main site
         uses: actions/upload-artifact@v4
