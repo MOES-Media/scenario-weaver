@@ -1,0 +1,11 @@
+name: Release Stable
+on:
+  workflow_call:
+
+jobs:
+  release-to-central:
+    if: github.ref == 'refs/heads/main'
+    environment: maven-central
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo TODO
