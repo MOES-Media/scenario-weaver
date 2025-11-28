@@ -34,7 +34,10 @@ jobs:
         run: mvn clean install javadoc:javadoc javadoc:aggregate -DskipTests
 
       - name: Copy Javadocs
-        run: cp -r target/site/apidocs docs/docs/javadoc
+        run: |
+          if [ -d target/site/apidocs ]; then
+            cp -r target/site/apidocs docs/docs/javadoc
+          fi
 
       - name: Install MkDocs
         run: pip install mkdocs mkdocs-material mkdocs-macros-plugin
