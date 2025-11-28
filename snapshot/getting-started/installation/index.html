@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Installation - Scenario Weaver</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Installation";
+        var mkdocs_page_input_path = "getting-started/installation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Scenario Weaver
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Installation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#1-add-dependencies">1. Add Dependencies</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-using-snapshot-versions-from-github-packages">2. Using SNAPSHOT Versions (from GitHub Packages)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#a-add-the-repository-to-your-pomxml">a. Add the repository to your pom.xml:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#b-authenticate-maven-to-github-packages">b. Authenticate Maven to GitHub Packages</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#c-use-the-snapshot-version-in-your-dependencies">c. Use the SNAPSHOT version in your dependencies:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-next-steps">3. Next Steps</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../first-scenario-junit/">Your First Scenario (jUnit)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../first-scenario-spring/">Your First Scenario (Spring)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../examples/">Examples</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Dev</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../javadoc/">JavaDocs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="/">Documentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://app.codecov.io/gh/MOES-Media/scenario-weaver/">Code Coverage Report</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Scenario Weaver</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Getting Started</li>
+      <li class="breadcrumb-item active">Installation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/MOES-Media/scenario-weaver/edit/main/docs/docs/getting-started/installation.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="installation">Installation</h1>
+<h2 id="1-add-dependencies">1. Add Dependencies</h2>
+<p>Add the core package and one extension (Junit or Spring) to your <code>pom.xml</code>:</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;be.moesmedia&lt;/groupId&gt;
+    &lt;artifactId&gt;scenario-weaver-core&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;!-- Choose one extension: --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;be.moesmedia&lt;/groupId&gt;
+    &lt;artifactId&gt;scenario-weaver-junit&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;!-- or --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;be.moesmedia&lt;/groupId&gt;
+    &lt;artifactId&gt;scenario-weaver-spring&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<hr />
+<h2 id="2-using-snapshot-versions-from-github-packages">2. Using SNAPSHOT Versions (from GitHub Packages)</h2>
+<p>If you want the latest SNAPSHOT version, you need to add the GitHub Packages repository and authenticate Maven:</p>
+<h3 id="a-add-the-repository-to-your-pomxml">a. Add the repository to your <code>pom.xml</code>:</h3>
+<pre><code class="language-xml">&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;github&lt;/id&gt;
+        &lt;name&gt;GitHub be.moesmedia Packages&lt;/name&gt;
+        &lt;url&gt;https://maven.pkg.github.com/moes-media/scenario-weaver&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+</code></pre>
+<h3 id="b-authenticate-maven-to-github-packages">b. Authenticate Maven to GitHub Packages</h3>
+<p>Add this to your <code>~/.m2/settings.xml</code>:</p>
+<pre><code class="language-xml">&lt;servers&gt;
+    &lt;server&gt;
+        &lt;id&gt;github&lt;/id&gt;
+        &lt;username&gt;YOUR_GITHUB_USERNAME&lt;/username&gt;
+        &lt;password&gt;YOUR_GITHUB_TOKEN&lt;/password&gt;
+    &lt;/server&gt;
+&lt;/servers&gt;
+</code></pre>
+<ul>
+<li>Use a <a href="https://github.com/settings/tokens">GitHub personal access token</a> with <code>read:packages</code> scope.</li>
+</ul>
+<h3 id="c-use-the-snapshot-version-in-your-dependencies">c. Use the SNAPSHOT version in your dependencies:</h3>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;be.moesmedia&lt;/groupId&gt;
+    &lt;artifactId&gt;scenario-weaver-core&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;!-- and one extension as above --&gt;
+</code></pre>
+<hr />
+<h2 id="3-next-steps">3. Next Steps</h2>
+<ul>
+<li><a href="../first-scenario-junit/">Create your first TestScenario (jUnit)</a></li>
+<li><a href="../first-scenario-spring/">Create your first TestScenario (Spring)</a></li>
+<li><a href="../examples/">See more examples</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../.." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../first-scenario-junit/" class="btn btn-neutral float-right" title="Your First Scenario (jUnit)">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/MOES-Media/scenario-weaver" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../first-scenario-junit/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

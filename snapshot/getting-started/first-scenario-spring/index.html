@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Your First Scenario (Spring) - Scenario Weaver</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Your First Scenario (Spring)";
+        var mkdocs_page_input_path = "getting-started/first-scenario-spring.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Scenario Weaver
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../first-scenario-junit/">Your First Scenario (jUnit)</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Your First Scenario (Spring)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#1-add-dependencies">1. Add Dependencies</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-define-the-test-scenario">2. Define the Test Scenario</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-provide-scenario-beans">3. Provide Scenario Beans</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-write-the-spring-test">4. Write the Spring Test</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-run-the-test">5. Run the Test</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-next-steps">6. Next Steps</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../examples/">Examples</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Dev</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../javadoc/">JavaDocs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="/">Documentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://app.codecov.io/gh/MOES-Media/scenario-weaver/">Code Coverage Report</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Scenario Weaver</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Getting Started</li>
+      <li class="breadcrumb-item active">Your First Scenario (Spring)</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/MOES-Media/scenario-weaver/edit/main/docs/docs/getting-started/first-scenario-spring.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="your-first-scenario-spring">Your First Scenario (Spring)</h1>
+<p>This guide shows how to create and run your first <strong>Scenario Weaver</strong> test in a Spring Boot environment.</p>
+<hr />
+<h2 id="1-add-dependencies">1. Add Dependencies</h2>
+<p>Add the following to your <code>pom.xml</code>:</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;be.moesmedia&lt;/groupId&gt;
+    &lt;artifactId&gt;scenario-weaver-core&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;be.moesmedia&lt;/groupId&gt;
+    &lt;artifactId&gt;scenario-weaver-spring&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<hr />
+<h2 id="2-define-the-test-scenario">2. Define the Test Scenario</h2>
+<p>Annotate your scenario class with <code>@ConfigureTestScenario</code> and provide the required beans by name and annotate your assertions:</p>
+<pre><code class="language-java">@ConfigureTestScenario(
+    name = &quot;helloSpring&quot;,
+    stubsProvider = &quot;myStubsProvider&quot;,
+    contextProvider = &quot;myPropertiesProvider&quot;,
+    payloadProvider = &quot;myPayloadProvider&quot;,
+    actionProvider = &quot;myActionProvider&quot;,
+    description = &quot;Hello Spring Test&quot;
+)
+public class HelloSpringTestScenario {
+
+    @Assertions
+    public List&lt;AssertionsProvider&lt;ResponseEntity&lt;String&gt;, Void, Void&gt;&gt; assertions() {
+        return List.of((actual, expected, unused) -&gt; {
+            assertEquals(HttpStatus.OK, actual.getStatusCode());
+            assertEquals(&quot;Hello Spring!&quot;, actual.getBody());
+        });
+    }
+}
+</code></pre>
+<hr />
+<h2 id="3-provide-scenario-beans">3. Provide Scenario Beans</h2>
+<p>In your test configuration, define the required providers as Spring beans and Enable
+scenario weaving by adding <code>@EnableTestScenarioWeaving</code></p>
+<pre><code class="language-java">@TestConfiguration
+@EnableTestScenarioWeaving(basePackages = &quot;be.moesmedia.scenarioweaver.examples.hellospring&quot;)
+static class MyTestConfig {
+    @Bean
+    public StubsProvider&lt;Void, TestScenarioProperties, Void&gt; myStubsProvider() {
+        return (payload, properties) -&gt; null;
+    }
+
+    @Bean
+    public PropertiesProvider&lt;TestScenarioProperties, Void&gt; myPropertiesProvider() {
+        return props -&gt; null;
+    }
+
+    @Bean
+    public PayloadProvider&lt;Void, Void&gt; myPayloadProvider() {
+        return ctx -&gt; null;
+    }
+
+    @Bean
+    public ActionProvider&lt;Void, Void, ResponseEntity&lt;String&gt;&gt; myActionProvider(TestRestTemplate testRestTemplate) {
+        return (payload, props) -&gt; testRestTemplate.getForEntity(&quot;/hello-spring&quot;, String.class);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="4-write-the-spring-test">4. Write the Spring Test</h2>
+<p>Use the Scenario Weaver Spring extension and inject your scenario:</p>
+<pre><code class="language-java">@SpringBootTest(
+    classes = {HelloSpringApplication.class, HelloSpringTest.MyTestConfig.class},
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
+@ExtendWith(SpringTestScenarioWeaverExtension.class)
+class HelloSpringTest {
+
+    private final TestScenarioExecutor executor = new DefaultTestScenarioExecutor();
+
+    @Test
+    void test_hello_spring(
+            @InjectTestScenario(&quot;helloSpring&quot;)
+            TestScenario&lt;String, TestScenarioProperties, String, Void&gt; testScenario) {
+        executor.execute(testScenario);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="5-run-the-test">5. Run the Test</h2>
+<p>Run your test as a standard Spring Boot test.<br />
+Scenario Weaver will inject the scenario and execute it using your Spring beans and executor.</p>
+<hr />
+<h2 id="6-next-steps">6. Next Steps</h2>
+<ul>
+<li><a href="../examples/">See more examples</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../first-scenario-junit/" class="btn btn-neutral float-left" title="Your First Scenario (jUnit)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../examples/" class="btn btn-neutral float-right" title="Examples">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/MOES-Media/scenario-weaver" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../first-scenario-junit/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../examples/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
