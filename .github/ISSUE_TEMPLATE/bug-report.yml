@@ -1,0 +1,89 @@
+name: Bug Report
+description: File a bug report to help us improve the project.
+labels: [bug]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out this form to help us reproduce and fix the bug. For best results, provide a minimal, complete, and verifiable example.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is, including what you expected to happen and what actually happened.
+      placeholder: Describe the bug here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: input
+    id: example
+    attributes:
+      label: Reproducible Example
+      description: Please provide a link to a minimal repository or gist that demonstrates the issue.
+      placeholder: https://github.com/your-username/repro-example
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: Describe the expected behavior here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Screenshots or Logs
+      description: If applicable, add screenshots or relevant log output to help explain your problem.
+      placeholder: Paste screenshots or logs here...
+
+  - type: input
+    id: java-version
+    attributes:
+      label: Java version
+      description: e.g. 21
+
+  - type: input
+    id: project-version
+    attributes:
+      label: Project version
+      description: e.g. 1.0.0
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Other relevant dependencies or tools
+      description: List any other relevant dependencies or tools.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here, such as recent changes, related issues, or workarounds you’ve tried.
+
+  - type: markdown
+    attributes:
+      value: |
+        **Suggestions for a good bug report:**
+        - Try to reproduce the issue with the latest version.
+        - Provide a minimal, complete, and verifiable example.
+        - Include relevant configuration files (e.g., `mkdocs.yml`, workflow files).
+        - List any error messages or stack traces.
+        - Mention if the issue is intermittent or always reproducible.
