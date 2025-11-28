@@ -1,0 +1,37 @@
+name: Question / Support
+description: Ask a question or request support for using the project.
+labels: [question, support]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need help or have a question about using this project? Please fill out the form below so we can assist you.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question or support request
+      description: Clearly describe your question or the issue you need help with.
+      placeholder: Ask your question or describe your support need here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide any relevant context, code snippets, error messages, or links to documentation.
+      placeholder: Add context, code, or error messages here...
+
+  - type: input
+    id: version
+    attributes:
+      label: Project version
+      description: Which version of the project are you using? (e.g., 1.0.0)
+
+  - type: markdown
+    attributes:
+      value: |
+        If your question is about a bug or feature, please use the appropriate template instead.
