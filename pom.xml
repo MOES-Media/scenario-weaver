@@ -32,7 +32,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <junit.jupiter.version>6.0.1</junit.jupiter.version>
-        <spring.boot.version>3.5.7</spring.boot.version>
+        <spring.boot.version>4.0.1</spring.boot.version>
         <wiremock.version>4.0.8</wiremock.version>
         <mockito.version>5.2.0</mockito.version>
         <palantir.verions>2.36.0</palantir.verions>
